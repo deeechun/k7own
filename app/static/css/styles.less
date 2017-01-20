@@ -1,0 +1,489 @@
+
+@font-face {
+    font-family: NotoSans;
+    src: url(../fonts/NotoSansKR-Regular.otf);
+}
+
+html,
+body{
+    overflow: auto;
+    min-height: 100%;
+    background-color: #FFFFFF;
+    font-family: NotoSans, arial;
+}
+p, span, h1, h2, h3, h4{
+    margin: 0;
+    padding: 0;
+}
+hr{
+    display: block;
+    margin: 6px 0px 6px 0px;
+    border-top: 1px solid #dedede;
+}
+.clear{
+    clear: both;
+}
+.container{
+    max-width: 940px;
+}
+.content{
+    margin-top: 50px;
+    padding-top: 12px;
+}
+.alert-style{
+    margin: 6px 0 6px 0;
+}
+.heading-box{
+    margin: 3px 0px 3px 0px;
+    height: 60px;
+}
+.heading{
+    float: left;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0px;
+    color: #444444;
+    font-size: 16px;
+    font-weight: bold;
+}
+.ellipsis{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.input-lg{
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+}
+
+/**************************************************/
+/* navbar CSS
+/**************************************************/
+.navbar{
+    background-color: #ffffff;
+    border-radius: 0px;
+    border: 0;
+    z-index: 300;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,0.3);
+}
+.navbar a{
+    color: #6c6c6c;
+    font-weight: bold;
+}
+.navbar li a:hover{
+    background-color: #FFFFFF;
+    color: #0066CD;
+}
+.nav-active a{
+    color: #0066CD;
+}
+.navbar-toggle .icon-bar {
+    width: 21px;
+    height: 2px;
+    background-color: #6c6c6c;
+    margin-right: 3px;
+}
+
+/**************************************************/
+/* footer CSS
+/**************************************************/
+.footer{
+    margin-top: 120px;
+    padding: 24px;
+    clear: both;
+    background-color: #444444;
+    color: #FFFFFF;
+}
+
+/**************************************************/
+/* buttons btn
+/**************************************************/
+.btn-creator(@color, @bgcolor){
+    color: @color;
+    background: @bgcolor;
+    box-shadow: 0px 3px 0px darken(@bgcolor, 15%);
+    margin-bottom: 3px;
+
+    &:active{
+        box-shadow: 0px 1px 0px darken(@bgcolor, 15%);
+        position: relative;
+        top: 2px;
+    }
+    &:hover{
+        color: darken(@color, 3%);
+        background: darken(@bgcolor, 3%);
+    }
+}
+.btn{
+    margin: 0;
+    &.btn-submit{
+        .btn-creator(#FFFFFF, #0069CD);
+    }
+    &.btn-new{
+        .btn-creator(#FFFFFF, #ff8c00);
+    }
+    &.btn-browse{
+        .btn-creator(#FFFFFF, #6c6c6c);
+        box-shadow: none;
+        border: 1px solid #6c6c6c;
+        &:active{
+            box-shadow: none;
+            top: 0;
+        }
+    }
+}
+#btn-browse-default {
+    display: none;
+}
+
+/**************************************************/
+/* user pages CSS
+/**************************************************/
+.user-guide{
+    margin-top: 12px;
+    text-align: center;
+    font-size: 12px;
+}
+
+/**************************************************/
+/* filters CSS
+/**************************************************/
+/*.filter-box{
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    height: 50px;
+    width: 100%;
+    background-color: #0066CD;
+    box-shadow: 0 3px 6px -1px rgba(0,0,0,0.3);
+}*/
+.filter-box{
+    background-color: #EEEEEE;
+    border: 1px solid #dcdcdc;
+    margin: 6px;
+    padding: 3px;
+}
+.filter-group{
+    float: left;
+    margin: 5px;
+}
+.filter-group-mobile{
+    margin: 5px;
+}
+.filter-select{
+    height: 38px;
+    border: 1px soild #dcdcdc;
+    padding: 0 0 0 3px;
+    font-size: 15px;
+}
+.filter-dropdown{
+    height: 38px;
+    border: 1px soild #dcdcdc;
+    padding-top: 8px;
+    font-size: 15px;
+    text-align: center;
+}
+.dropdown-toggle:hover{
+    text-decoration: none;
+}
+.dropdown-menu{
+    padding: 3px;
+}
+.price-form-group{
+    margin: 5px;
+}
+.input-group-addon{
+    padding: 6px;
+}
+.ui-slider {
+    height: 12px;
+    margin: 12px;
+}
+.ui-slider .ui-slider-handle {
+    height: 19px;
+    width: 18px;
+}
+.ui-slider .ui-slider-range{
+    background-color: #D2E6F6;
+}
+
+/**************************************************/
+/* cards CSS
+/**************************************************/
+/*.map-view{
+    position: absolute;
+    top: 100px;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+#map{
+    height: 100%;
+    width: 100%;
+    background-color:grey;
+}
+.posts-box{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    bottom:0;
+    z-index: 100;
+    /*box-shadow: 3px 0 6px rgba(0,0,0,.3);
+    overflow: auto;
+    padding: 3px;
+}*/
+.card {
+    display: block;
+    position: relative;
+    margin: 6px;
+    border: 0;
+    transition: box-shadow .25s;
+    overflow: hidden;
+}
+.card:hover {
+    box-shadow: 0 1px 8px 0px rgba(0,0,0,0.4);
+}
+.card-new{
+    border: 1px solid #dcdcdc;
+    background-color: #f8f8f8;
+}
+.card-viewed {
+    position:absolute;
+    right: 6px;
+    top: 6px;
+    background-color: #444444;
+    border-radius: 3px;
+    opacity: 0.8;
+    padding: 1px 3px 1px 3px;
+    color: #FFFFFF;
+    font-family: arial;
+    font-size: 11px;
+}
+.card-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+}
+.card-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-size: cover;
+    transition: all .25s ease;
+}
+.card-content{
+    position:absolute;
+    width: 100%;
+    bottom: 0px;
+    background: -webkit-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
+    background: -o-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
+    background: -moz-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
+    background: linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
+    padding: 3px 5px 3px 5px;
+    color: #FFFFFF;
+}
+.card-subject{
+    margin-top: 6px;
+}
+.card-subject a{
+    font-size: 14px;
+    color: #FFFFFF;
+}
+.card-subject a:hover{
+    text-decoration: none;
+}
+.card-desc {
+    margin: 0 0 2px 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+.card-desc-price {
+    font-size: 20px;
+}
+.card-desc-2 {
+    font-size: 12px;
+    font-weight: normal;
+}
+.card-read-more {
+    border-top: 1px solid #dedede;
+}
+.card-read-more-text {
+    margin: 1px 0 0 0;
+    padding: 0 0 0 1px;
+    /*color: #757575;*/
+    font-size: 11px;
+}
+.card-premium-empty a{
+    font-weight: bold;
+    position: relative;
+    top: 35%;
+}
+.pagination{
+    margin: 12px 0px 6px 0px;
+}
+.pagination-centered {
+    text-align: center;
+}
+.pagination>li.active>a{
+    background-color: #0066CD;
+}
+
+/**************************************************/
+/* view modal CSS
+/**************************************************/
+.modal{
+    z-index: 9999;
+}
+.modal-open[style] {
+    padding-right: 0px !important;
+}
+.modal-header{
+    border:0;
+}
+.modal-title{
+    font-size: 21px;
+}
+.modal-content{
+    border-radius: 0;
+    height: auto;
+}
+.modal-body{
+    margin: 0;
+    padding: 0;
+}
+/*.view-subject{
+    float:left;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #444444;
+}*/
+.view-options{
+    float: right;
+    margin: 0;
+    font-weight: bold;
+}
+.view-options a{
+    margin: 0 0 0 12px;
+    color: #757575;
+}
+.view-options a:hover{
+    color: #004081;
+    text-decoration: none;
+}
+.view-box{
+    padding: 12px;
+    border-top: 1px solid #dedede;
+}
+.view-box-price{
+    margin: 0 0 9px 0;
+    color: #444444;
+    font-size: 20px;
+    font-weight: bold;
+}
+.view-box-title{
+    margin: 0 0 9px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0066CD;
+}
+.view-box-title2{
+    margin: 0px 0px 3px 0px; 
+    font-weight: bold;
+    font-size: 14px;
+}
+.view-box-corner{
+    float: right;
+    margin: 3px 0 0 0;
+    font-size: 13px;
+    color: #757575;
+}
+.view-box-subtitle{
+    width: 30%;
+    padding: 3px 0 3px 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+}
+.view-box-stat{
+    padding: 3px 0 3px 0;
+    font-size: 14px;
+    font-weight: normal;
+    color: #444444;
+}
+.view-body{
+    padding: 6px;
+}
+.view-adspace{
+    margin: 6px;
+    border:1px solid red;
+}
+
+
+/**************************************************/
+/* edit page CSS
+/**************************************************/
+.edit-box{
+    margin-top: 30px;
+}
+.edit-title{
+    margin: 0 0 15px 10px;
+    color: #0066CD;
+    font-size: 24px;
+}
+.edit-form-group{
+    margin-right: 12px;
+    margin-left: 12px;
+}
+.edit-body {
+    resize: vertical;
+}
+
+
+
+@media only screen and (max-width : 991px) {
+/* only size 'sm' and below */
+    .modal-dialog {
+        width: 97%;
+        margin: 30px auto;
+    }
+}
+
+@media only screen and (max-width : 767px) {
+/* only size 'xs' and below */
+    .card{
+        margin: 3px;
+    }
+    .card-viewed {
+        font-size: 10px;
+    }
+    .card-subject {
+        font-size: 13px;
+    }
+    .card-desc {
+        font-size: 13px;
+    }
+    .card-desc-price {
+        font-size: 16px;
+    }
+    .card-desc-2 {
+        font-size: 11px;
+    }
+    .card-read-more-text {
+        font-size: 10px;
+    }
+    .filter-modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+}
+
+/*"http://www.fostrap.com/"*/

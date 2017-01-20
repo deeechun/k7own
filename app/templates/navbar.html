@@ -1,0 +1,33 @@
+
+{% block navbar %}
+<nav class="navbar navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-left" style="margin:0 12px 0 3px;" href="/">
+				<img style="height:47px" src="{{ url_for('static', filename='images/logo.png') }}" />
+			</a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				<li {% if page=='homestay': %} class="nav-active"{% endif %}><a href="/homestay">민박 & 하숙</a></li>
+				<li {% if page=='rent': %} class="nav-active"{% endif %}><a href="/rent">렌트 & 리스</a></li>
+				<li {% if page=='realestate': %} class="nav-active"{% endif %}><a href="/realestate">부동산</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				{% if current_user.is_authenticated: %}
+					<li{% if page=='profile': %} class="nav-active"{% endif %}><a href="/profile"><i class="fa fa-user-circle-o" aria-hidden="true"></i> {{ current_user.username }}</a></li>
+					<li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 로그아웃</a></li>
+				{% else %}
+					<li{% if page=='register': %} class="nav-active"{% endif %}><a href="/register"><i class="fa fa-user-plus" aria-hidden="true"></i> 회원가입</a></li>
+					<li{% if page=='login': %} class="nav-active"{% endif %}><a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> 로그인</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</nav>
+{% endblock %}

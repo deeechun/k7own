@@ -1,0 +1,139 @@
+<!-- modal template -->
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&nbsp;&times;</button>
+    <h3 class="modal-title">{{ post.subject }}</h3>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-24 col-sm-15">
+            <div class="fotorama"
+                   data-fit="cover"
+                   data-width="100%"
+                   data-ratio="1">
+                <!--   data-nav="thumbs">
+                {% for image in images: %}
+                {% endfor %}
+                -->
+                {% if post.image_ext: %}
+                    <img src="{{ post.image_ext }}" />
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/test-photo.png') }}" />
+                {% endif %}
+                <img src="{{ url_for('static', filename='images/no-photo.png') }}" />
+            </div><!-- END class fotorama -->
+        </div><!-- END class fotorama grid -->
+        
+        <div class="col-xs-24 col-sm-9">
+            <div class="view-box">
+                <div class="view-options">
+                    <a href="/{{ page }}/edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>
+                    <a href="/{{ page }}/edit"><i class="fa fa-sticky-note-o fa-lg" aria-hidden="true"></i></a>
+                    <a href="/{{ page }}/edit"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i></a>
+                </div>
+                <p class="view-box-price">
+                    {{ '${:,}'.format(post.price) }}{% if page!='realestate': %}<span style="font-size:16px;">/{{ price_deco }}</span>{% endif %}
+                </p>
+                <p class="view-box-title">
+                    {% if post.address: %}{{ post.address }} {% else: %} --- {% endif %}
+                </p>
+                <p class="view-box-title2">
+                    {% if post.bedrooms==0 %}Studio{% else: %}방<span style="font-weight:normal">{{ post.bedrooms }}</span>{% endif %}&nbsp&nbsp•&nbsp
+                    화장실 {% if post.bathrooms==0 %} <span style="font-weight:normal">공용</span> {% else: %} <span style="font-weight:normal">{{ post.bathrooms }}</span> {% endif %}
+                </p>
+                
+                <hr>
+                
+                <p class="view-box-corner"><i class="fa fa-user" aria-hidden="true"></i> {{ post.username }}</p>
+                <p class="view-box-title">연락처</p>
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <i class="fa fa-phone fa-lg" aria-hidden="true"></i>
+                            &nbsp{% if post.phone==None: %} -- {% else: %} {{ post.phone }} {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            &nbsp{% if post.email==None: %} -- {% else: %} {{ post.email }} {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img style="height:18px;" src="{{ url_for('static', filename='images/kakaolink_btn_medium.png') }}">
+                            &nbsp{% if post.kakaotalk==None: %} -- {% else: %} {{ post.kakaotalk }} {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                
+                <hr>
+                
+                <p class="view-box-corner"><i class="fa fa-calendar" aria-hidden="true"></i> {{ (today.date()-post.date_posted.date()).days }}일전</p>
+                <p class="view-box-title">상세정보</p>
+                <table style="width:100%">
+                    <tr>
+                        <td class="view-box-subtitle">주차:</td>
+                        <td>{% if post.parking==None: %} -- {% else: %} {{ post.parking }} 대{% endif %}</td>
+                    </tr>
+                    {% if page=='homestay': %}
+                        <tr>
+                            <td class="view-box-subtitle">유틸리티:</td>
+                            <td>{% if post.utilities==None: %} -- {% else: %} {{ post.utilities }} {% endif %}</td><span class="badge">4</span>
+                        </tr>
+                        <tr>
+                            <td class="view-box-subtitle">인터넷:</td>
+                            <td>{% if post.internet==None: %} -- {% else: %} {{ post.internet }} {% endif %}</td><span class="badge">4</span>
+                        </tr>
+                        <tr>
+                            <td class="view-box-subtitle">가구완비:</td>
+                            <td>{% if post.furniture==None: %} -- {% else: %} {{ post.furniture }} {% endif %}</td><span class="badge">4</span>
+                        </tr>
+                        <tr>
+                            <td class="view-box-subtitle">식사:</td>
+                            <td>{% if post.food==None: %} -- {% else: %} {{ post.food }} {% endif %}</td><span class="badge">4</span>
+                        </tr>
+                    {% else: %}
+                        <tr>
+                            <td class="view-box-subtitle">지역:</td>
+                            <td>{{ post.city }}</td>
+                        </tr>
+                        <tr>
+                            <td class="view-box-subtitle">면적:</td>
+                            <td>{% if post.sqft==None: %} -- {% else: %} {{ '{:,}'.format(post.sqft) }} {% endif %} sqft.</td>
+                        </tr>
+                        <tr>
+                            <td class="view-box-subtitle">년도:</td>
+                            <td>{% if post.year==None: %} -- {% else: %} {{ post.year }} {% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td class="view-box-subtitle">조회수:</td>
+                            <td>{{ post.viewed }}</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div><!-- END view-content -->
+        </div><!-- END grid -->
+    </div><!-- END class row -->
+    <div class="row">
+            <div class="col-xs-24 col-sm-15">
+                <div class="view-content">
+                    <div class="view-body">
+                        <p>{{ post.body }}</p>
+                    </div><!-- END class view-body -->
+                </div>
+            </div><!-- END grid -->
+            <div class="col-xs-24 col-sm-9">
+                <div class="view-content">
+                    <div class="view-adspace">
+                        <br>
+                    </div>
+                </div>
+            </div>
+    </div><!-- END class row -->
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

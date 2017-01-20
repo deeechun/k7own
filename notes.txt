@@ -1,0 +1,36 @@
+# to run:
+gunicorn run:app -b localhost:8000
+or
+python3 run.py
+
+pip install -r /path/to/requirements.txt
+pip freeze | xargs pip uninstall -y
+
+# to set env variables in terminal:
+export APP_SETTINGS='config.DevConfig' &&
+export DATABASE_URL='mysql://jlee7737:48cd3f6p@localhost/ktownapp' &&
+export SECRET_KEY='seeecret' &&
+export APP_MAIL_USERNAME='calbang.noreply@gmail.com' &&
+export APP_MAIL_PASSWORD='L' &&
+export RECAPTCHA_PUBLIC_KEY='nanona' &&
+export RECAPTCHA_PRIVATE_KEY='nanona'
+
+# make migrations to mysql db:
+python3 migrate.py db init
+python3 migrate.py db migrate
+python3 migrate.py db upgrade
+
+# nginx custom error pages settings and location:
+/usr/share/nginx/html
+/etc/nginx/sites-enabled/app
+
+# mysql
+change db table character set
+	ALTER TABLE tbl_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+login
+	mysql -u root -p
+commands
+	SHOW DATABASES
+	USE database
+	SHOW TABLES
+	DELETE vs. TRUNCATE (resets id counter)
