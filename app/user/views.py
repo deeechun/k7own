@@ -17,7 +17,7 @@ def register():
     page = 'register'
     if current_user.is_authenticated:
         flash('이미 로그인된 상태입니다.', 'danger')
-        return redirect(url_for('home'))
+        return redirect(url_for('home.home'))
     
     form = RegisterForm()
     if request.method == 'POST':
@@ -72,13 +72,13 @@ def verify_email(token):
             flash('계정 이메일이 확인되었습니다. 감사합니다!', 'success')
     except:
         flash('The confirmation link is invalid or has expired.', 'danger')
-    return redirect(url_for('home'))
+    return redirect(url_for('home.home'))
 
 @user_blueprint.route('/unverified')
 @login_required
 def unverified():
     if current_user.verified==1:
-        return redirect('home')
+        return redirect('home.home')
     else:
         flash('계정확인이 먼저 필요합니다. 계정확인을 위해 이메일을 확인해주세요', 'warning')
         return render_template('/unverified.html')
@@ -88,7 +88,7 @@ def login():
     page = 'login'
     if current_user.is_authenticated:
         flash('이미 로그인된 상태입니다.', 'danger')
-        return redirect(url_for('home'))
+        return redirect(url_for('home.home'))
     
     form = LoginForm()
     if request.method == 'POST':
@@ -99,7 +99,7 @@ def login():
                     login_user(user, remember=form.remember_me.data)
                     
                     db.session.close()
-                    return redirect(url_for('home'))
+                    return redirect(url_for('home.home'))
                 else:
                     flash('아이디와 비밀번호가 일치하지 않습니다', 'danger')
                     return render_template('/login.html', form=form, page=page)
@@ -115,7 +115,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('home.home'))
 
 @user_blueprint.route('/reset')
 def reset():

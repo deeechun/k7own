@@ -16,11 +16,11 @@
             <div class="card-content">
                 <h3 class="card-subject ellipsis">
                     <a data-toggle="modal" href="#view-modal-{{post.id}}">{{ post.subject }}</a>
-                    <!--<a href="/{{ page }}/view/{{ post.id }}">{{ post.subject }}</a>-->
+                    <!--<a href="/{{ category }}/view/{{ post.id }}">{{ post.subject }}</a>-->
                 </h3>
                 <p class="card-desc ellipsis">
                     <span class="card-desc-price">{{ '${:,}'.format(post.price) }}</span
-                    ><span class="card-desc-2">{% if page!='realestate': %}/{{ price_deco }} {% endif %}</span>
+                    ><span class="card-desc-2">{% if category!='realestate': %}/{{ price_deco }} {% endif %}</span>
                     <span>
                         &nbsp;&nbsp;방<span style="font-weight:normal">{{ post.bedrooms }}</span>
                         &nbsp;•&nbsp;&nbsp;화<span style="font-weight:normal">{% if post.bathrooms==0 %} 공용 {% else: %}{{ post.bathrooms }} {% endif %}</span> 
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <a class="card-img" data-toggle="modal" href="#view-modal-{{post.id}}">
-            <!--<a class="card-img" href="/{{ page }}/view/{{ post.id }}">-->
+            <!--<a class="card-img" href="/{{ category }}/view/{{ post.id }}">-->
                 {% if post.image_ext: %}
                     <img src="{{ post.image_ext }}" />
                 {% else %}
@@ -43,7 +43,7 @@
     </div><!-- END grid -->
     {% endfor %}<!-- END cards -->
     <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="card card-new fade-in" onclick="location.href='/{{ page }}/new'">
+        <div class="card card-new fade-in" onclick="location.href='/{{ category }}/new'">
         	add <i class="fa fa-plus" aria-hidden="true"></i>
         </div><!-- END class card -->
     </div><!-- END grid -->
@@ -91,13 +91,13 @@
 <div class="row">
     <br />
     <div class="col-xs-24 col-sm-offset-21 col-sm-3">
-        <a href="/{{ page }}/edit" class="form-control btn btn-new">등록하기</a>
+        <a href="/{{ category }}/edit" class="form-control btn btn-new">등록하기</a>
     </div>
     <div class="pagination-centered">
         <ul class="pagination">
             {% for num in range(1, 6): %}
-                <li {% if page_num==num %}class="active"{% endif %}>
-                    <a href="/{{ page }}/{{ num }}">{{ num }}</a>
+                <li {% if category_num==num %}class="active"{% endif %}>
+                    <a href="/{{ category }}/{{ num }}">{{ num }}</a>
                 </li>
             {% endfor %}
         </ul>
@@ -110,20 +110,18 @@
 {% block script %}
 <script src="{{ url_for('static', filename='js/fotorama.js') }}"></script>
 <script>
-    var card_width = $('.card').width();
-    $('.card').css({
-        'height': card_width + 'px'
-    });
-    window.onresize = function(event) {
+	window.onload = function() {
+	    card_width = $('.card').width();
+	    $('.card').css({
+	        'height': card_width + 'px'
+	    });
+	};
+    window.onresize = function() {
         card_width = $('.card').width();
         $('.card').css({
             'height': card_width + 'px'
         });
     };
-    
-    $(document).ready(function(){ 
-        $('.fade-in').hide().fadeIn();
-    });
     
     $(document).ready(function(){
         $('#rangeslider').slider({

@@ -1,4 +1,4 @@
-from app.models import User, Post
+from app.models import User, PostHome
 from app import app, db
 import datetime
 from time import strftime
@@ -13,100 +13,69 @@ with app.app_context():
                 password = '48cd3f6p',
                 verified = 1
                 )
-    newpost_rent = Post(
+
+    new_post = PostHome(
+                category='realestate',
                 date_posted=datetime.datetime.now(),
-                page = 'rent',
-                username='admin', 
                 viewed=0, 
-                subject='asdfasdfasdfasdfasdf2', 
-                body='asdfasdfasdf', 
-                phone='123-456-7890', 
-                email='calbang.noreply@gmail.com', 
-                kakaotalk='calbang', 
-                city='Los Angeles, CA', 
-                price=725, 
-                image_ext='',
-                address='1234 Wilshire Blvd.', 
-                bedrooms=1, 
-                bathrooms=0,
-                parking=1, 
-                utilities=1, 
-                internet=1,
-                furniture=1, 
-                sqft=1234, 
-                year=1991
-                )
-    newpost_homestay = Post(
-                date_posted=datetime.datetime.now(),
-                page = 'homestay',
-                username='admin', 
-                viewed=0, 
+                username='ejh2163', 
                 subject='하숙 샘플 포스팅입니다2', 
                 body='하숙 샘플 포스팅입니다', 
-                phone='123-456-7890', 
-                email='calbang.noreply@gmail.com', 
-                kakaotalk='calbang', 
-                city='Los Angeles, CA', 
-                price=725, 
-                image_ext='',
-                address='1234 Wilshire Blvd.', 
-                bedrooms=1, 
-                bathrooms=0,
-                parking=1, 
-                utilities=1, 
-                internet=1,
-                furniture=1, 
-                sqft=1234, 
-                year=1991
-                )
-    newpost_realestate = Post(
-                date_posted=datetime.datetime.now(),
-                page = 'realestate',
-                username='admin', 
-                viewed=0, 
-                subject='하숙 샘플 포스팅입니다2', 
-                body='하숙 샘플 포스팅입니다', 
-                phone='123-456-7890', 
-                email='calbang.noreply@gmail.com', 
-                kakaotalk='calbang', 
-                city='Los Angeles, CA', 
-                price=725, 
-                image_ext='',
-                address='1234 Wilshire Blvd.', 
-                bedrooms=1, 
-                bathrooms=0,
-                parking=1, 
-                utilities=1, 
-                internet=1,
-                furniture=1, 
-                sqft=1234, 
-                year=1991
-                )
-    newpost_realestate2 = Post(
-                date_posted=datetime.datetime.now(),
-                page = 'realestate',
-                username='admin', 
-                viewed=0, 
-                subject='하숙 샘플 포스팅입니다2', 
-                body='하숙 샘플 포스팅입니다', 
-                phone='123-456-7890', 
-                email='calbang.noreply@gmail.com', 
-                kakaotalk='calbang', 
-                city='Los Angeles, CA', 
                 price=390000, 
+                city='Los Angeles, CA', 
                 image_ext='',
+                phone='123-456-7890', 
+                email='calbang.noreply@gmail.com', 
+                kakaotalk='calbang', 
                 address='1234 Wilshire Blvd.', 
                 bedrooms=2, 
                 bathrooms=2,
                 parking=1, 
-                utilities=1, 
-                internet=1,
-                furniture=1, 
                 sqft=1234, 
                 year=1991
                 )
-    db.session.add(newpost_rent)
-    db.session.add(newpost_homestay)
-    db.session.add(newpost_realestate)
-    db.session.add(newpost_realestate2)
+    new_post2 = PostHome(
+                category='homestay',
+                date_posted=datetime.datetime.now(),
+                viewed=0, 
+                username='ejh2163', 
+                subject='하숙 샘플 포스팅입니다2', 
+                body='하숙 샘플 포스팅입니다', 
+                price=390000, 
+                city='Los Angeles, CA', 
+                image_ext='',
+                phone='123-456-7890', 
+                email='calbang.noreply@gmail.com', 
+                kakaotalk='calbang', 
+                address='1234 Wilshire Blvd.', 
+                bedrooms=2, 
+                bathrooms=2,
+                parking=1, 
+                sqft=1234, 
+                year=1991
+                )
+    new_post3 = PostHome(
+                category='rent',
+                date_posted=datetime.datetime.now(),
+                viewed=0, 
+                username='ejh2163', 
+                subject='하숙 샘플 포스팅입니다2', 
+                body='하숙 샘플 포스팅입니다', 
+                price=390000, 
+                city='Los Angeles, CA', 
+                image_ext='',
+                phone='123-456-7890', 
+                email='calbang.noreply@gmail.com', 
+                kakaotalk='calbang', 
+                address='1234 Wilshire Blvd.', 
+                bedrooms=2, 
+                bathrooms=2,
+                parking=1, 
+                sqft=1234, 
+                year=1991
+                )
+    db.session.add(newuser)
+    db.session.add(new_post)
+    db.session.add(new_post2)
+    db.session.add(new_post3)
     db.session.commit()

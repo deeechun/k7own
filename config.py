@@ -24,6 +24,8 @@ class Config(object):
     RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']
     RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']
     
+    JSON_AS_ASCII = False
+    
 class DevConfig(Config):
     '''
     Development configurations

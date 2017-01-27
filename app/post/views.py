@@ -3,7 +3,7 @@ from flask_login import login_required
 from flask_sqlalchemy import *
 import datetime
 
-from app.models import Post
+from app.models import PostHome
 from app import db, verify_required
 from app.post.edit_forms import EditForm
 
@@ -12,12 +12,12 @@ post_blueprint = Blueprint('post', __name__, template_folder='templates')
 # ********************************************************************************
 # Posts view
 # 
-# - url passes in page
+# - url passes in category
 # - filters pass in url parameters, grabbed using request.args.get and updates
 #   new posts DB query
 # ********************************************************************************
-@post_blueprint.route('/<page>', methods=['GET'])
-def get_posts_list(page):
+@post_blueprint.route('/<category>', methods=['GET'])
+def get_posts_list(category):
     try:
         # request.args url parameters
         pmin = 0
@@ -36,8 +36,8 @@ def get_posts_list(page):
             city = request.args.get('city')
 
         # query filter components
-        price_min = db.session.query(db.func.min(Post.price)).filter(Post.page==page).scalar()
-        price_max = db.session.query(db.func.max(Post.price)).filter(Post.page==page).scalar()
+        price_min = db.session.query(db.func.min(PostHome.price)).filter(PostHome.category==category).scalar()
+        price_max = db.session.query(db.func.max(PostHome.price)).filter(PostHome.category==category).scalar()
         if pmin and pmax:
             pmin_filtered = pmin
             pmax_filtered = pmax
@@ -45,28 +45,28 @@ def get_posts_list(page):
             pmin_filtered = price_min
             pmax_filtered = price_max
         price_deco = ''
-        if page in ['rent','homestay']:
+        if category in ['rent','homestay']:
             price_deco = '월'
-        elif page=='bnb':
+        elif category=='bnb':
             price_deco = '일'
-        cities = db.session.query(Post.city.distinct().label('city')).filter(Post.page==page).order_by(Post.city).limit(100).all()
+        cities = db.session.query(PostHome.city.distinct().label('city')).filter(PostHome.category==category).order_by(PostHome.city).limit(100).all()
         
         # query post and post components
-        posts = (Post.query
-                .filter(Post.page==page)
-                .filter(Post.price >= pmin_filtered)
-                .filter(Post.price <= pmax_filtered)
-                .filter(Post.bedrooms >= beds)
-                .filter(Post.bathrooms >= baths)
-                .filter(Post.city.contains(city))
-                .order_by(Post.id.desc())
-                #.offset((page_num-1)*(100)).limit(100).all()
+        posts = (PostHome.query
+                .filter(PostHome.category==category)
+                .filter(PostHome.price >= pmin_filtered)
+                .filter(PostHome.price <= pmax_filtered)
+                .filter(PostHome.bedrooms >= beds)
+                .filter(PostHome.bathrooms >= baths)
+                .filter(PostHome.city.contains(city))
+                .order_by(PostHome.id.desc())
+                #.offset((category_num-1)*(100)).limit(100).all()
                 )
         db.session.close()
         
         return render_template('/posts.html', 
-                                page=page, 
-                                #page_num=page_num, 
+                                category=category, 
+                                #category_num=category_num, 
                                 price_min=price_min, 
                                 price_max=price_max, 
                                 pmin_filtered=pmin_filtered, 
@@ -79,52 +79,52 @@ def get_posts_list(page):
     except:
         abort(404)
     
-@post_blueprint.route('/<page>/<int:post_id>/view')
-def get_post(page, post_id):
+@post_blueprint.route('/<category>/<int:post_id>/view')
+def get_post(category, post_id):
     # update post.viewed count
-    post = Post.query.filter(Post.id==post_id).first()
+    post = PostHome.query.filter(PostHome.id==post_id).first()
     post.viewed += 1
     db.session.commit()
     
     price_deco = ''
-    if page in ['rent','homestay']:
+    if category in ['rent','homestay']:
         price_deco = '월'
-    elif page=='bnb':
+    elif category=='bnb':
         price_deco = '일'
     
     return render_template('/view.html', 
-                            page=page,
+                            category=category,
                             post=post,
                             price_deco=price_deco,
                             today=datetime.datetime.now()
                             )
 
-@post_blueprint.route('/<page>/new', methods=['GET', 'POST'])
-#@login_required
-#@verify_required
-def create_post(page):
+@post_blueprint.route('/<category>/new', methods=['GET', 'POST'])
+@login_required
+@verify_required
+def create_post(category):
     form = EditForm()
     if request.method == 'POST':
         if form.validate_on_submit():
             
             
-            return render_template('edit.html', page=page, form=form)
+            return render_template('edit.html', category=category, form=form)
         else:
-            return render_template('edit.html', page=page, form=form)
+            return render_template('edit.html', category=category, form=form)
     elif request.method == 'GET':
-        return render_template('edit.html', page=page, form=form)
+        return render_template('edit.html', category=category, form=form)
 
-@post_blueprint.route('/<page>/edit', methods=['GET', 'POST'])
+@post_blueprint.route('/<category>/edit', methods=['GET', 'POST'])
 @login_required
 @verify_required
-def edit_post(page):
+def edit_post(category):
         
     form = EditForm()
     
-    return render_template('edit.html', page=page, form=form)
+    return render_template('edit.html', category=category, form=form)
     '''
     if request.method == 'GET':
-        return render_template('/edit.html', page=page)
+        return render_template('/edit.html', category=category)
     elif request.method == 'POST':
         listings = {
             'subject': request.form['subject'],
@@ -142,7 +142,7 @@ def edit_post(page):
         # store data in data store
         # code
         # code 
-        return render_template('/view.html', page=page, posts=posts)
+        return render_template('/view.html', category=category, posts=posts)
     else:
-        return render_template(error_page.html)
+        return render_template(error_category.html)
         '''
