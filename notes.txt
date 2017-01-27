@@ -8,7 +8,7 @@ pip freeze | xargs pip uninstall -y
 
 # to set env variables in terminal:
 export APP_SETTINGS='config.DevConfig' &&
-export DATABASE_URL='mysql://jlee7737:48cd3f6p@localhost/ktownapp' &&
+export DATABASE_URL='mysql://login:pswd@localhost/ktownapp' &&
 
 # make migrations to mysql db:
 python3 migrate.py db init

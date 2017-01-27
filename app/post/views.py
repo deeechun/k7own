@@ -52,30 +52,32 @@ def get_posts_list(category):
         cities = db.session.query(PostHome.city.distinct().label('city')).filter(PostHome.category==category).order_by(PostHome.city).limit(100).all()
         
         # query post and post components
-        posts = (PostHome.query
-                .filter(PostHome.category==category)
-                .filter(PostHome.price >= pmin_filtered)
-                .filter(PostHome.price <= pmax_filtered)
-                .filter(PostHome.bedrooms >= beds)
-                .filter(PostHome.bathrooms >= baths)
-                .filter(PostHome.city.contains(city))
-                .order_by(PostHome.id.desc())
-                #.offset((category_num-1)*(100)).limit(100).all()
-                )
+        posts = (
+            PostHome.query
+            .filter(PostHome.category==category)
+            .filter(PostHome.price >= pmin_filtered)
+            .filter(PostHome.price <= pmax_filtered)
+            .filter(PostHome.bedrooms >= beds)
+            .filter(PostHome.bathrooms >= baths)
+            .filter(PostHome.city.contains(city))
+            .order_by(PostHome.id.desc())
+            #.offset((category_num-1)*(100)).limit(100).all()
+        )
         db.session.close()
         
-        return render_template('/posts.html', 
-                                category=category, 
-                                #category_num=category_num, 
-                                price_min=price_min, 
-                                price_max=price_max, 
-                                pmin_filtered=pmin_filtered, 
-                                pmax_filtered=pmax_filtered, 
-                                price_deco=price_deco, 
-                                cities=cities, 
-                                posts=posts,
-                                today=datetime.datetime.now()
-                                )
+        return render_template(
+            '/posts.html', 
+            category=category, 
+            #category_num=category_num, 
+            price_min=price_min, 
+            price_max=price_max, 
+            pmin_filtered=pmin_filtered, 
+            pmax_filtered=pmax_filtered, 
+            price_deco=price_deco, 
+            cities=cities, 
+            posts=posts,
+            today=datetime.datetime.now()
+        )
     except:
         abort(404)
     
@@ -92,12 +94,13 @@ def get_post(category, post_id):
     elif category=='bnb':
         price_deco = '일'
     
-    return render_template('/view.html', 
-                            category=category,
-                            post=post,
-                            price_deco=price_deco,
-                            today=datetime.datetime.now()
-                            )
+    return render_template(
+        '/view.html', 
+        category=category,
+        post=post,
+        price_deco=price_deco,
+        today=datetime.datetime.now()
+    )
 
 @post_blueprint.route('/<category>/new', methods=['GET', 'POST'])
 @login_required
