@@ -1,9 +1,8 @@
 import os
 
 class Config(object):
-    '''
-    Main configurations
-    '''
+    ''' Main configurations '''
+
     CSRF_ENABLED = True
     SECURITY_PASSWORD_SALT = os.environ['SECURITY_PASSWORD_SALT']
     SECRET_KEY = os.environ['SECRET_KEY']
@@ -27,15 +26,13 @@ class Config(object):
     JSON_AS_ASCII = False
     
 class DevConfig(Config):
-    '''
-    Development configurations
-    '''
+    ''' Development configurations '''
+
     DEBUG = True
     TESTING = True
     SQLALCHEMY_ECHO = True
             
 class ProdConfig(Config):
-    '''
-    Production configurations
-    '''
+    ''' Production configurations '''
+    
     SQLALCHEMY_ECHO = False
