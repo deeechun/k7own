@@ -6,7 +6,8 @@
     desktop view filters
     ******************************** -->
     <div class="filter-group hidden-xs">
-        <select name="city" class="filter-select form-control"> <!-- onchange="this.form.submit()" -->
+        <select name="city" class="filter-select form-control">
+ onchange="this.form.submit()>
             <option value=''>전체지역</option>
             {% for city in cities: %}
                 <option value="{{city.city}}" {% if request.args.get('city')==city.city: %} selected="selected" {% endif %}>
