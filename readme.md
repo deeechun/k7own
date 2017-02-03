@@ -37,7 +37,7 @@
 1. OR just install them all from requirements file
  * ```pip install -r requirements.txt```
 1. set up extensions.py file and create extension instances
- * ```
+    ```
     # extensions.py
     from flask_sqlalchemy import SQLAlchemy
     from flask_login import LoginManager, current_user
@@ -48,7 +48,7 @@
     login_manager = LoginManager()
     csrf = CsrfProtect()
     mail = Mail()
-   ```
+    ```
 1. set up config.py file and create class for configuration
  * ```
     # config.py
