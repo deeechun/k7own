@@ -2,23 +2,24 @@
 gunicorn run:app -b localhost:8000
 or
 python3 run.py
-
+=====================================================================================================
 pip install -r /path/to/requirements.txt
 pip freeze | xargs pip uninstall -y
-
+=====================================================================================================
 # to set env variables in terminal:
 export APP_SETTINGS='config.DevConfig' &&
 export DATABASE_URL='mysql://login:pswd@localhost/ktownapp' &&
-
+==========================================================================================================
 # make migrations to mysql db:
 python3 migrate.py db init
+
 python3 migrate.py db migrate
 python3 migrate.py db upgrade
-
+==============================================================================================================
 # nginx custom error pages settings and location:
 /usr/share/nginx/html
 /etc/nginx/sites-enabled/app
-
+=========================================================================================================
 # mysql
 change db table character set
 	ALTER TABLE posts CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -30,3 +31,20 @@ commands
 	USE database
 	SHOW TABLES
 	DELETE vs. TRUNCATE (resets id counter)
+====================================================================================================================
+# can't ssh in
+Hello there!
+Thank you for reaching out to us today. Looks like some configuration with the droplet's networking somehow got misconfigured. Can you run the following commands:
+sudo ip link set ens3 name eth0
+sudo ip link set ens4 name eth1
+sudo if down -v eth0; sudo ip addr flush dev eth0; sudo ifup -v eth0
+sudo if down -v eth1; sudo ip addr flush dev eth1; sudo ifup -v eth1
+=======================================================================================================================
+# How to run linux process and come back to it later?
+This is the proper way to do it:
+
+Start the process without the &
+Use Ctrl-Z to suspend the process
+Execute on that command line the process bg. This will take your process to the background as if you had it executed using the &.
+At any point in time you can bring your process to the foreground by using fg
+Also, you can get a list of currently executing processes by executing jobs

@@ -3,8 +3,8 @@ from flask_login import login_required
 from flask_sqlalchemy import *
 import datetime
 
-from app.models import PostHome
 from app import db, verify_required
+from app.models import PostHome
 from app.post.edit_forms import EditForm
 
 post_blueprint = Blueprint('post', __name__, template_folder='templates')
@@ -16,6 +16,62 @@ post_blueprint = Blueprint('post', __name__, template_folder='templates')
 # - filters pass in url parameters, grabbed using request.args.get and updates
 #   new posts DB query
 # ********************************************************************************
+
+@post_blueprint.route('/homes', methods=['GET'])
+def home_posts():
+    try:
+        category= 'test'
+        pmin, pmax = 0, 0
+        if request.args.get('pmin') and request.args.get('pmax'):
+            pmin = int(re.search(r'\d+', request.args.get('pmin')).group())
+            pmax = int(re.search(r'\d+', request.args.get('pmax')).group())
+        beds = 0
+        if request.args.get('beds'):
+            beds = request.args.get('beds')
+        baths = 0
+        if request.args.get('baths'):
+            baths = request.args.get('baths')
+        city = ''
+        if request.args.get('city'):
+            city = request.args.get('city')
+
+        # query filter components
+        price_min = db.session.query(db.func.min(PostHome.price)).scalar()
+        price_max = db.session.query(db.func.max(PostHome.price)).scalar()
+        if pmin and pmax:
+            pmin_filtered = pmin
+            pmax_filtered = pmax
+        else: 
+            pmin_filtered = price_min
+            pmax_filtered = price_max
+        price_deco = ''
+        if category in ['rent','homestay']:
+            price_deco = '월'
+        elif category=='bnb':
+            price_deco = '일'
+        cities = db.session.query(PostHome.city.distinct().label('city')).order_by(PostHome.city).limit(100).all()
+        
+        posts = PostHome.query.order_by(PostHome.id.desc())
+        
+        return render_template(
+            '/posts.html', 
+            page='homes',
+            category=category,
+            price_min=price_min,
+            price_max=price_max, 
+            pmin_filtered=pmin_filtered, 
+            pmax_filtered=pmax_filtered, 
+            price_deco=price_deco, 
+            cities=cities, 
+            posts=posts,
+            today=datetime.datetime.now()
+        )         
+        #return render_template('/posts.html',
+        #                       posts=posts,
+        #                       )
+    except:
+        abort(404)
+
 @post_blueprint.route('/<category>', methods=['GET'])
 def get_posts_list(category):
     try:
