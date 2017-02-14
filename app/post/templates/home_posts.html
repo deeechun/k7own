@@ -1,0 +1,121 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<div class="filter-box row">
+	{% include 'home_filters.html' %}
+</div>
+
+<div class="cards-box row">
+    {% for post in posts: %}<!-- START card -->
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="card fade-in">
+                <div class="card-viewed">
+                    <i class="fa fa-eye" aria-hidden="true"></i>&nbsp{{ post.viewed }}
+                </div>
+                <a class="card-img" data-toggle="modal" href="#view-modal-{{post.id}}">
+                <!--<a class="card-img" href="/{{ category }}/view/{{ post.id }}">-->
+                    {% if post.image_ext: %}
+                        <img src="{{ post.image_ext }}" />
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/test-photo.png') }}" />
+                    {% endif %}
+                </a>
+                <div class="card-content">
+                    <a class="card-subject ellipsis" data-toggle="modal" href="#view-modal-{{post.id}}">
+                        {{ post.subject }}
+                    </a>
+                        <!--<a href="/{{ category }}/view/{{ post.id }}">{{ post.subject }}</a>-->
+                    <p class="card-desc ellipsis">
+                        <span class="card-desc-price">{{ '${:,}'.format(post.price) }}</span
+                        ><span class="card-desc-2"></span>
+                    </p>
+                    <div class="card-read-more">
+                        <p class="card-read-more-text" style="float:left;"><i class="fa fa-map-marker" aria-hidden="true"></i> {{ post.city }}</p>
+                        <p class="card-read-more-text" style="float:right;">{{ (today.date()-post.date_posted.date()).days }}일전</p>
+                    </div>
+                </div>
+            </div><!-- END class card -->
+        </div><!-- END grid -->
+    {% endfor %}<!-- END cards -->
+    <div class="col-xs-12 col-sm-12 col-md-6">
+        <div class="card card-add-new fade-in" onclick="location.href='/{{ category }}/new'">
+            <table style="width:100%; height:100%;">
+                <tr>
+                    <td style="vertical-align:middle">
+                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                    </td>
+                </tr>
+            </table>
+        </div><!-- END class card -->
+    </div><!-- END grid -->
+</div><!-- END posts-box -->
+
+{% for post in posts: %}
+    <!-- START view modal -->
+    <div class="modal " id="view-modal-{{post.id}}" role="dialog">
+        <div class="modal-dialog modal-lg">
+        	<div class="modal-content">
+            	{% include 'modal.html' %}
+            </div>
+        </div>
+    </div>
+    <!-- END view modal -->
+{% endfor %}
+
+
+<!--
+<div class="row">
+    <br />
+    <div class="col-xs-24 col-sm-offset-21 col-sm-3">
+        <a href="/{{ category }}/edit" class="form-control btn btn-new">등록하기</a>
+    </div>
+    <div class="pagination-centered">
+        <ul class="pagination">
+            {% for num in range(1, 6): %}
+                <li {% if category_num==num %}class="active"{% endif %}>
+                    <a href="/{{ category }}/{{ num }}">{{ num }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+-->
+{% endblock %}<!-- END content block -->
+
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/fotorama.js') }}"></script>
+<script>
+	window.onload = function() {
+	    card_width = $('.card').width();
+	    $('.card').css({
+	        'height': card_width + 'px'
+	    });
+	};
+    window.onresize = function() {
+        card_width = $('.card').width();
+        $('.card').css({
+            'height': card_width + 'px'
+        });
+    };
+    
+    $(document).ready(function() {
+        $('#rangeslider').slider({
+            range: true,
+            min: {{ price_min }},
+            max: {{ price_max }},
+            values: [{{ pmin_filtered }}, {{ pmax_filtered }}],
+            slide: function( event, ui ) {
+                $('#rangemin').val( ui.values[0] );
+                $('#rangemax').val( ui.values[1] );
+            },
+            //change: function( event, ui ) {
+            //    $('#filter-form').submit();
+            //}
+        });
+        $('#rangemin').val( $("#rangeslider").slider("values", 0) );
+        $('#rangemax').val( $("#rangeslider").slider("values", 1) );
+    });
+</script>
+{% endblock %}

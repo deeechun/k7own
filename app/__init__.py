@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template
 from app.extensions import db, login_manager, csrf, mail
 from app.scripts import verify_required
-from app.models import User, PostHome
+from app.models import User, PostHome, PostCar
 
 # import and setup environment variables
 import config_env

@@ -77,41 +77,22 @@
                         <td class="view-box-subtitle">주차:</td>
                         <td>{% if post.parking==None: %} -- {% else: %} {{ post.parking }} 대{% endif %}</td>
                     </tr>
-                    {% if category=='homestay': %}
-                        <tr>
-                            <td class="view-box-subtitle">유틸리티:</td>
-                            <td>{% if post.utilities==None: %} -- {% else: %} {{ post.utilities }} {% endif %}</td><span class="badge">4</span>
-                        </tr>
-                        <tr>
-                            <td class="view-box-subtitle">인터넷:</td>
-                            <td>{% if post.internet==None: %} -- {% else: %} {{ post.internet }} {% endif %}</td><span class="badge">4</span>
-                        </tr>
-                        <tr>
-                            <td class="view-box-subtitle">가구완비:</td>
-                            <td>{% if post.furniture==None: %} -- {% else: %} {{ post.furniture }} {% endif %}</td><span class="badge">4</span>
-                        </tr>
-                        <tr>
-                            <td class="view-box-subtitle">식사:</td>
-                            <td>{% if post.food==None: %} -- {% else: %} {{ post.food }} {% endif %}</td><span class="badge">4</span>
-                        </tr>
-                    {% else: %}
-                        <tr>
-                            <td class="view-box-subtitle">지역:</td>
-                            <td>{{ post.city }}</td>
-                        </tr>
-                        <tr>
-                            <td class="view-box-subtitle">면적:</td>
-                            <td>{% if post.sqft==None: %} -- {% else: %} {{ '{:,}'.format(post.sqft) }} {% endif %} sqft.</td>
-                        </tr>
-                        <tr>
-                            <td class="view-box-subtitle">년도:</td>
-                            <td>{% if post.year==None: %} -- {% else: %} {{ post.year }} {% endif %}</td>
-                        </tr>
-                        <tr>
-                            <td class="view-box-subtitle">조회수:</td>
-                            <td>{{ post.viewed }}</td>
-                        </tr>
-                    {% endif %}
+                    <tr>
+                        <td class="view-box-subtitle">지역:</td>
+                        <td>{{ post.city }}</td>
+                    </tr>
+                    <tr>
+                        <td class="view-box-subtitle">면적:</td>
+                        <td>{% if post.sqft==None: %} -- {% else: %} {{ '{:,}'.format(post.sqft) }} {% endif %} sqft.</td>
+                    </tr>
+                    <tr>
+                        <td class="view-box-subtitle">년도:</td>
+                        <td>{% if post.year==None: %} -- {% else: %} {{ post.year }} {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td class="view-box-subtitle">조회수:</td>
+                        <td>{{ post.viewed }}</td>
+                    </tr>
                 </table>
             </div><!-- END view-content -->
         </div><!-- END grid -->

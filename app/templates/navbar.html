@@ -15,8 +15,7 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
 				<li {% if page=='homes': %} class="nav-active"{% endif %}><a href="/homes">집</a></li>
-				<li {% if page=='rent': %} class="nav-active"{% endif %}><a href="/rent">렌트리스</a></li>
-				<li {% if page=='realestate': %} class="nav-active"{% endif %}><a href="/realestate">부동산</a></li>
+				<li {% if page=='cars': %} class="nav-active"{% endif %}><a href="/cars">자동차</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				{% if current_user.is_authenticated: %}

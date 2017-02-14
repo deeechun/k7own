@@ -30,8 +30,8 @@ hr{
     margin-top: 50px;
     padding-top: 12px;
 }
-.alert-style{
-    margin: 6px 0 6px 0;
+.alert{
+    margin: 6px;
 }
 .heading-box{
     margin: 3px 0px 3px 0px;
@@ -212,28 +212,8 @@ hr{
 /**************************************************/
 /* cards CSS
 /**************************************************/
-/*.map-view{
-    position: absolute;
-    top: 100px;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
+.cards-box {
 }
-#map{
-    height: 100%;
-    width: 100%;
-    background-color:grey;
-}
-.posts-box{
-    position: absolute;
-    top: 100px;
-    left: 0;
-    bottom:0;
-    z-index: 100;
-    /*box-shadow: 3px 0 6px rgba(0,0,0,.3);
-    overflow: auto;
-    padding: 3px;
-}*/
 .card {
     display: block;
     position: relative;
@@ -245,9 +225,15 @@ hr{
 .card:hover {
     box-shadow: 0 1px 8px 0px rgba(0,0,0,0.4);
 }
-.card-new{
+.card-add-new {
     border: 1px solid #dcdcdc;
     background-color: #f8f8f8;
+    top: 35%;
+    color: #6c6c6c;
+    text-align: center;
+}
+.card-catgory{
+
 }
 .card-viewed {
     position:absolute;
@@ -282,18 +268,17 @@ hr{
     background: -o-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
     background: -moz-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
     background: linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
-    padding: 3px 5px 3px 5px;
+    padding: 6px;
     color: #FFFFFF;
 }
 .card-subject{
     margin-top: 6px;
-}
-.card-subject a{
     font-size: 14px;
     color: #FFFFFF;
 }
-.card-subject a:hover{
+.card-subject:hover{
     text-decoration: none;
+    color: #d4d4d4;
 }
 .card-desc {
     margin: 0 0 2px 0;
@@ -316,12 +301,7 @@ hr{
     /*color: #757575;*/
     font-size: 11px;
 }
-.card-premium-empty a{
-    font-weight: bold;
-    position: relative;
-    top: 35%;
-}
-.pagination{
+/*.pagination{
     margin: 12px 0px 6px 0px;
 }
 .pagination-centered {
@@ -330,6 +310,28 @@ hr{
 .pagination>li.active>a{
     background-color: #0066CD;
 }
+.map-view{
+    position: absolute;
+    top: 100px;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+#map{
+    height: 100%;
+    width: 100%;
+    background-color:grey;
+}
+.posts-box{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    bottom:0;
+    z-index: 100;
+    /*box-shadow: 3px 0 6px rgba(0,0,0,.3);
+    overflow: auto;
+    padding: 3px;
+}*/
 
 /**************************************************/
 /* view modal CSS
@@ -456,6 +458,9 @@ hr{
 
 @media only screen and (max-width : 767px) {
 /* only size 'xs' and below */
+	.cards-box{
+		padding: 3px;
+	}
     .card{
         margin: 3px;
     }

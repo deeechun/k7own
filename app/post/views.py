@@ -1,139 +1,138 @@
-from flask import Flask, flash, request, render_template, redirect, session, url_for, Blueprint, jsonify
+from flask import (Blueprint,
+                   Flask, 
+                   flash, 
+                   redirect, 
+                   render_template, 
+                   request, 
+                   session, 
+                   url_for )
 from flask_login import login_required
 from flask_sqlalchemy import *
 import datetime
 
-from app import db, verify_required
-from app.models import PostHome
+from app import db
+from app.scripts import verify_required
+from app.models import PostHome, PostCar
 from app.post.edit_forms import EditForm
 
 post_blueprint = Blueprint('post', __name__, template_folder='templates')
 
-# ********************************************************************************
-# Posts view
-# 
-# - url passes in category
-# - filters pass in url parameters, grabbed using request.args.get and updates
-#   new posts DB query
-# ********************************************************************************
+def process_common_filters():
+    pmin, pmax = 0, 0
+    if request.args.get('pmin') and request.args.get('pmax'):
+        pmin = int(re.search(r'\d+', request.args.get('pmin')).group())
+        pmax = int(re.search(r'\d+', request.args.get('pmax')).group())
+    
+    city = ''
+    if request.args.get('city'):
+        city = request.args.get('city')
+
+    return pmin, pmax, city
+
+def process_home_filters():
+    beds, baths = 0, 0
+    if request.args.get('beds') and request.args.get('baths'):
+        beds = request.args.get('beds')
+        baths = request.args.get('baths')
+
+    return beds, baths
+
+def process_car_filters():
+    year, make, model, mileage = 0, '', '', 0
+    if request.args.get('year'):
+        year = request.args.get('year')
+        make = request.args.get('make')
+        model = request.args.get('model')
+        mileage = request.args.get('mileage')
+
+    return year, make, model, mileage
+
+def process_home_prices(pmin, pmax):
+    price_min = db.session.query(db.func.min(PostHome.price)).scalar()
+    price_max = db.session.query(db.func.max(PostHome.price)).scalar()
+    # refactor this process; same part with process_car_prices()
+    if pmin or pmax:
+        pmin_filtered = pmin
+        pmax_filtered = pmax
+    else: 
+        pmin_filtered = price_min
+        pmax_filtered = price_max
+    return price_min, price_max, pmin_filtered, pmax_filtered
+
+def process_car_prices(pmin, pmax):
+    price_min = db.session.query(db.func.min(PostCar.price)).scalar()
+    price_max = db.session.query(db.func.max(PostCar.price)).scalar()
+    if pmin or pmax:
+        pmin_filtered = pmin
+        pmax_filtered = pmax
+    else: 
+        pmin_filtered = price_min
+        pmax_filtered = price_max
+    return price_min, price_max, pmin_filtered, pmax_filtered
 
 @post_blueprint.route('/homes', methods=['GET'])
 def home_posts():
     try:
         category= 'test'
-        pmin, pmax = 0, 0
-        if request.args.get('pmin') and request.args.get('pmax'):
-            pmin = int(re.search(r'\d+', request.args.get('pmin')).group())
-            pmax = int(re.search(r'\d+', request.args.get('pmax')).group())
-        beds = 0
-        if request.args.get('beds'):
-            beds = request.args.get('beds')
-        baths = 0
-        if request.args.get('baths'):
-            baths = request.args.get('baths')
-        city = ''
-        if request.args.get('city'):
-            city = request.args.get('city')
 
-        # query filter components
-        price_min = db.session.query(db.func.min(PostHome.price)).scalar()
-        price_max = db.session.query(db.func.max(PostHome.price)).scalar()
-        if pmin and pmax:
-            pmin_filtered = pmin
-            pmax_filtered = pmax
-        else: 
-            pmin_filtered = price_min
-            pmax_filtered = price_max
-        price_deco = ''
-        if category in ['rent','homestay']:
-            price_deco = '월'
-        elif category=='bnb':
-            price_deco = '일'
+        pmin, pmax, city = process_common_filters()
+        beds, baths = process_home_filters()
+        price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)
+
         cities = db.session.query(PostHome.city.distinct().label('city')).order_by(PostHome.city).limit(100).all()
         
-        posts = PostHome.query.order_by(PostHome.id.desc())
+        posts = (PostHome.query
+                 .filter(PostHome.price >= pmin_filtered)
+                 .filter(PostHome.price <= pmax_filtered)
+                 .filter(PostHome.city.contains(city))
+                 .filter(PostHome.bedrooms >= beds)
+                 .filter(PostHome.bathrooms >= baths)
+                 .order_by(PostHome.id.desc()) )
         
-        return render_template(
-            '/posts.html', 
-            page='homes',
-            category=category,
-            price_min=price_min,
-            price_max=price_max, 
-            pmin_filtered=pmin_filtered, 
-            pmax_filtered=pmax_filtered, 
-            price_deco=price_deco, 
-            cities=cities, 
-            posts=posts,
-            today=datetime.datetime.now()
-        )         
-        #return render_template('/posts.html',
-        #                       posts=posts,
-        #                       )
+        return render_template('/home_posts.html',
+                               page='homes',
+                               category=category,
+                               price_min=price_min,
+                               price_max=price_max, 
+                               pmin_filtered=pmin_filtered, 
+                               pmax_filtered=pmax_filtered, 
+                               cities=cities, 
+                               posts=posts,
+                               today=datetime.datetime.now() )         
     except:
         abort(404)
 
-@post_blueprint.route('/<category>', methods=['GET'])
-def get_posts_list(category):
+@post_blueprint.route('/cars', methods=['GET'])
+def car_posts():
     try:
-        # request.args url parameters
-        pmin = 0
-        pmax = 0
-        if request.args.get('pmin') and request.args.get('pmax'):
-            pmin = int(re.search(r'\d+', request.args.get('pmin')).group())
-            pmax = int(re.search(r'\d+', request.args.get('pmax')).group())
-        beds = 0
-        if request.args.get('beds'):
-            beds = request.args.get('beds')
-        baths = 0
-        if request.args.get('baths'):
-            baths = request.args.get('baths')
-        city = ''
-        if request.args.get('city'):
-            city = request.args.get('city')
+        category= 'test'
 
-        # query filter components
-        price_min = db.session.query(db.func.min(PostHome.price)).filter(PostHome.category==category).scalar()
-        price_max = db.session.query(db.func.max(PostHome.price)).filter(PostHome.category==category).scalar()
-        if pmin and pmax:
-            pmin_filtered = pmin
-            pmax_filtered = pmax
-        else: 
-            pmin_filtered = price_min
-            pmax_filtered = price_max
-        price_deco = ''
-        if category in ['rent','homestay']:
-            price_deco = '월'
-        elif category=='bnb':
-            price_deco = '일'
-        cities = db.session.query(PostHome.city.distinct().label('city')).filter(PostHome.category==category).order_by(PostHome.city).limit(100).all()
+        pmin, pmax, city = process_common_filters()
+        year, make, model, mileage = process_car_filters()
+        price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)       
+
+        cities = db.session.query(PostCar.city.distinct().label('city')).order_by(PostCar.city).limit(100).all()
         
-        # query post and post components
-        posts = (
-            PostHome.query
-            .filter(PostHome.category==category)
-            .filter(PostHome.price >= pmin_filtered)
-            .filter(PostHome.price <= pmax_filtered)
-            .filter(PostHome.bedrooms >= beds)
-            .filter(PostHome.bathrooms >= baths)
-            .filter(PostHome.city.contains(city))
-            .order_by(PostHome.id.desc())
-            #.offset((category_num-1)*(100)).limit(100).all()
-        )
-        db.session.close()
+        posts = (PostCar.query
+                 .filter(PostCar.price >= pmin_filtered)
+                 .filter(PostCar.price <= pmax_filtered)
+                 .filter(PostCar.city.contains(city))
+                 .filter(PostCar.year >= year)
+                 .filter(PostCar.make >= make)
+                 .filter(PostCar.model >= model)
+                 .filter(PostCar.mileage >= mileage)
+                 .order_by(PostCar.id.desc()) )
         
-        return render_template(
-            '/posts.html', 
-            category=category, 
-            #category_num=category_num, 
-            price_min=price_min, 
-            price_max=price_max, 
-            pmin_filtered=pmin_filtered, 
-            pmax_filtered=pmax_filtered, 
-            price_deco=price_deco, 
-            cities=cities, 
-            posts=posts,
-            today=datetime.datetime.now()
-        )
+        return render_template('/home_posts.html',
+                               page='cars',
+                               category=category,
+                               price_min=price_min,
+                               price_max=price_max, 
+                               pmin_filtered=pmin_filtered, 
+                               pmax_filtered=pmax_filtered, 
+                               cities=cities, 
+                               posts=posts,
+                               today=datetime.datetime.now() )         
     except:
         abort(404)
     
