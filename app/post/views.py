@@ -57,6 +57,7 @@ def process_home_prices(pmin, pmax):
     else: 
         pmin_filtered = price_min
         pmax_filtered = price_max
+
     return price_min, price_max, pmin_filtered, pmax_filtered
 
 def process_car_prices(pmin, pmax):
@@ -68,6 +69,7 @@ def process_car_prices(pmin, pmax):
     else: 
         pmin_filtered = price_min
         pmax_filtered = price_max
+
     return price_min, price_max, pmin_filtered, pmax_filtered
 
 @post_blueprint.route('/homes', methods=['GET'])
@@ -78,7 +80,6 @@ def home_posts():
         pmin, pmax, city = process_common_filters()
         beds, baths = process_home_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)
-
         cities = db.session.query(PostHome.city.distinct().label('city')).order_by(PostHome.city).limit(100).all()
         
         posts = (PostHome.query
@@ -110,7 +111,6 @@ def car_posts():
         pmin, pmax, city = process_common_filters()
         year, make, model, mileage = process_car_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)       
-
         cities = db.session.query(PostCar.city.distinct().label('city')).order_by(PostCar.city).limit(100).all()
         
         posts = (PostCar.query
