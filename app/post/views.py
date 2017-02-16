@@ -13,7 +13,7 @@ import datetime
 from app import db
 from app.scripts import verify_required
 from app.models import PostHome, PostCar
-from app.post.edit_forms import EditForm
+from app.post.edit_forms import HomeForm
 
 post_blueprint = Blueprint('post', __name__, template_folder='templates')
 
@@ -123,7 +123,7 @@ def car_posts():
                  .filter(PostCar.mileage >= mileage)
                  .order_by(PostCar.id.desc()) )
         
-        return render_template('/home_posts.html',
+        return render_template('/car_posts.html',
                                page='cars',
                                category=category,
                                price_min=price_min,
