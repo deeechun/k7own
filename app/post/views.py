@@ -13,7 +13,7 @@ import datetime
 from app import db
 from app.scripts import verify_required
 from app.models import PostHome, PostCar
-from app.post.edit_forms import HomeForm
+from app.post.post_forms import HomeForm
 
 post_blueprint = Blueprint('post', __name__, template_folder='templates')
 
@@ -75,8 +75,6 @@ def process_car_prices(pmin, pmax):
 @post_blueprint.route('/homes', methods=['GET'])
 def home_posts():
     try:
-        category= 'test'
-
         pmin, pmax, city = process_common_filters()
         beds, baths = process_home_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)
@@ -92,7 +90,7 @@ def home_posts():
         
         return render_template('/home_posts.html',
                                page='homes',
-                               category=category,
+                               category='test',
                                price_min=price_min,
                                price_max=price_max, 
                                pmin_filtered=pmin_filtered, 
@@ -107,7 +105,6 @@ def home_posts():
 def car_posts():
     try:
         category= 'test'
-
         pmin, pmax, city = process_common_filters()
         year, make, model, mileage = process_car_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)       
@@ -125,7 +122,7 @@ def car_posts():
         
         return render_template('/car_posts.html',
                                page='cars',
-                               category=category,
+                               category='test',
                                price_min=price_min,
                                price_max=price_max, 
                                pmin_filtered=pmin_filtered, 
@@ -136,71 +133,17 @@ def car_posts():
     except:
         abort(404)
     
-@post_blueprint.route('/<category>/<int:post_id>/view')
-def get_post(category, post_id):
-    # update post.viewed count
-    post = PostHome.query.filter(PostHome.id==post_id).first()
-    post.viewed += 1
-    db.session.commit()
-    
-    price_deco = ''
-    if category in ['rent','homestay']:
-        price_deco = '월'
-    elif category=='bnb':
-        price_deco = '일'
-    
-    return render_template(
-        '/view.html', 
-        category=category,
-        post=post,
-        price_deco=price_deco,
-        today=datetime.datetime.now()
-    )
-
-@post_blueprint.route('/<category>/new', methods=['GET', 'POST'])
+@post_blueprint.route('/<page>/edit', methods=['GET', 'POST'])
 @login_required
 @verify_required
-def create_post(category):
-    form = EditForm()
+def edit_home_post(page):
+    form = HomeForm()
+
+    if request.method == 'GET':
+        return render_template('home_edit.html', page=page, form=form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            
-            
-            return render_template('edit.html', category=category, form=form)
+                       
+            return render_template('home_edit.html', page=page, form=form)
         else:
-            return render_template('edit.html', category=category, form=form)
-    elif request.method == 'GET':
-        return render_template('edit.html', category=category, form=form)
-
-@post_blueprint.route('/<category>/edit', methods=['GET', 'POST'])
-@login_required
-@verify_required
-def edit_post(category):
-        
-    form = EditForm()
-    
-    return render_template('edit.html', category=category, form=form)
-    '''
-    if request.method == 'GET':
-        return render_template('/edit.html', category=category)
-    elif request.method == 'POST':
-        listings = {
-            'subject': request.form['subject'],
-            'region': request.form['region'],
-            'phone': request.form['phone'],
-            'email': request.form['email'],
-            'body': reqwuest.form['body'],
-            'homes_type': request.form['homes_type'],
-            'homes_price': request.form['homes_price'],
-            'homes_bedrooms': request.form['homes_bedrooms'],
-            'homes_parking': request.form['homes_parking'],
-            'homes_year': request.form['homes_year'],
-            'homes_sqft': request.form['homes_sqft'],
-        }
-        # store data in data store
-        # code
-        # code 
-        return render_template('/view.html', category=category, posts=posts)
-    else:
-        return render_template(error_category.html)
-        '''
+            return render_template('home_edit.html', page=page, form=form)

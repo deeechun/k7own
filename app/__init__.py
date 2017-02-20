@@ -19,11 +19,11 @@ mail.init_app(app)
 
 # import and register blueprints
 from app.home.views import home_blueprint
-from app.user.views import user_blueprint
+from app.auth.views import auth_blueprint
 from app.post.views import post_blueprint
 from app.api.views import api_blueprint
 app.register_blueprint(home_blueprint)
-app.register_blueprint(user_blueprint)
+app.register_blueprint(auth_blueprint)
 app.register_blueprint(post_blueprint)
 app.register_blueprint(api_blueprint)
 

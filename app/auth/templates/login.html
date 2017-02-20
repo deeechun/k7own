@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class='row'>
+    <div class="col-xs-20 col-xs-offset-2 col-sm-12 col-sm-offset-6 col-md-8 col-md-offset-8 fade-in">
+        <div class="row">
+            <div class="col-xs-24">
+                <img style="margin-top:6px; width:100%;" src="{{ url_for('static', filename='images/logo-login.png') }}" />
+                <div style="border-radius:4px; background-color:#0066CD; height:20px; margin-top:18px"></div>
+            </div>
+        </div>
+        <form method="post" action="" accept-charset="UTF-8">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <br />
+            <div class="form-group">
+                {{ form.username(class="form-control", placeholder="아이디") }}
+                {% for message in form.username.errors %}
+                    <p style="font-size:12px; color:red; margin-top:1px">&nbsp{{ message }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.password(class="form-control", placeholder="비밀번호") }}
+                {% for message in form.password.errors %}
+                    <p style="font-size:12px; color:red; margin-top:1px">&nbsp{{ message }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.remember_me(value='True') }}
+                <span style="font-size:13px">로그인 상태 유지하기</span>
+            </div>
+            <div class="form-group">
+                {{ form.login(class="btn btn-lg btn-block btn-submit") }}
+                <!--<p class="pull-right" style="font-size:12px"></p>-->
+            </div>
+        </form>
+        <hr>
+        <div class="user-guide text-center">
+            <p><a href="/reset">아이디 찾기</a>&nbsp | &nbsp<a href="/reset">비밀번호 변경</a></p>
+            <br />
+            <p>아직 아이디가 없으세요?</p>
+            <a href="/register">회원가입하기</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

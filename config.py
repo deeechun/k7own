@@ -17,7 +17,7 @@ class Config(object):
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ['APP_MAIL_USERNAME']
     MAIL_PASSWORD = os.environ['APP_MAIL_PASSWORD']
-    MAIL_DEFAULT_SENDER = 'noreply@calbang.com'
+    MAIL_DEFAULT_SENDER = 'noreply@ktown.com'
     
     # recaptcha
     RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']

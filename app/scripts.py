@@ -7,6 +7,6 @@ def verify_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
         if current_user.verified==0:
-            return redirect(url_for('user.unverified'))
+            return redirect(url_for('auth.unverified'))
         return func(*args, **kwargs)
     return decorated_function
