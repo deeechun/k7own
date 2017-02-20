@@ -1,5 +1,5 @@
 venv
-.pyc
-.pyo
+*.pyc
+*.pyo
 config_env.py
 notes.txt
