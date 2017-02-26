@@ -1,18 +1,17 @@
-
 {% extends 'index.html' %}
 
 {% block content %}
 <!--**************************************************
     FILTERS
     **************************************************-->
-<div class="filter-box row">
+<div class="filter-section">
 	{% include 'home_filters.html' %}
 </div>
 
 <!--**************************************************
     CARDS
     **************************************************-->
-<div class="cards-box row">
+<div class="cards-section">
     {% for post in posts: %}
     <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="card fade-in">
@@ -90,7 +89,6 @@
     </div>
 </div>-->
 {% endblock %}<!-- END content block -->
-
 
 {% block script %}
 <script src="{{ url_for('static', filename='js/fotorama.js') }}"></script>

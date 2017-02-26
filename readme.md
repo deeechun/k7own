@@ -38,10 +38,6 @@
     ```
     git remote add origin grabhttpsorsshaddressfromgithubrepo
     ```
-1. cd to default ssh directory
-    ```
-    cd ~/.ssh
-    ```
 1. create public/private RSA key pair
     ```
     ssh-keygen -t rsa -C "email@email.com"

@@ -1,7 +1,10 @@
-
 @font-face {
     font-family: NotoSans;
     src: url(../fonts/NotoSansKR-Regular.otf);
+}
+@font-face {
+    font-family: Hanna;
+    src: url(../fonts/BM-HANNA.ttf);
 }
 
 html,
@@ -20,18 +23,15 @@ hr{
     margin: 6px 0px 6px 0px;
     border-top: 1px solid #dedede;
 }
-.clear{
-    clear: both;
-}
 .container{
     max-width: 940px;
 }
-.content{
-    margin-top: 50px;
-    padding-top: 12px;
-}
 .alert{
     margin: 6px;
+}
+#content{
+    margin-top: 50px;
+    padding-top: 6px;
 }
 .heading-box{
     margin: 3px 0px 3px 0px;
@@ -56,6 +56,22 @@ hr{
     padding: 0;
     margin: 0;
     font-size: 16px;
+}
+.separator-creator(@thickness){
+    height: @thickness;
+    width: 100%;
+    border-radius: 3px;
+    background-color: #0066CD;
+}
+.separator{
+    &.separator-thick{
+        .separator-creator(18px);
+        margin: 12px 0 15px 0;
+    }
+    &.separator-thin{
+        .separator-creator(2px);
+        margin: 6px;
+    }
 }
 
 /**************************************************/
@@ -90,11 +106,12 @@ hr{
 /* footer CSS
 /**************************************************/
 .footer{
+    border-top: 1px solid #dcdcdc;
     margin-top: 120px;
     padding: 24px;
     clear: both;
-    background-color: #444444;
-    color: #FFFFFF;
+    background-color: #EEEEEE;
+    color: #444444;
 }
 
 /**************************************************/
@@ -139,8 +156,14 @@ hr{
 }
 
 /**************************************************/
-/* user pages CSS
+/* auth pages CSS
 /**************************************************/
+.auth-title{
+    margin-top: 12px;
+    font-family: Hanna;
+    font-size: 60px;
+    text-align: center;
+}
 .user-guide{
     margin-top: 12px;
     text-align: center;
@@ -168,6 +191,9 @@ hr{
     background-color: #0066CD;
     box-shadow: 0 3px 6px -1px rgba(0,0,0,0.3);
 }*/
+.filter-section{
+    
+}
 .filter-box{
     background-color: #EEEEEE;
     border: 1px solid #dcdcdc;
@@ -221,7 +247,7 @@ hr{
 /**************************************************/
 /* cards CSS
 /**************************************************/
-.cards-box {
+.cards-section {
 
 }
 .card {
@@ -439,7 +465,7 @@ hr{
 /**************************************************/
 /* edit page CSS
 /**************************************************/
-.edit-box{
+.edit-section{
     margin: 6px;
 }
 .edit-title{

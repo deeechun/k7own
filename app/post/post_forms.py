@@ -18,12 +18,12 @@ class CommonForm(FlaskForm):
                            choices=[('cpp', 'C++'), 
                                     ('py', 'Python')] )
     subject = TextField('subject', 
-                        [validators.Required(message='필수항목입니다') ] )
+                        [validators.Required(message='필수항목') ] )
     body = TextAreaField('body')
     price = IntegerField('price', 
-                         [validators.Required(message='필수항목입니다') ] )
+                         [validators.Required(message='필수항목') ] )
     city = TextField('city', 
-                     [validators.Required(message='필수항목입니다') ] )
+                     [validators.Required(message='필수항목') ] )
     image_file = FileField('image', 
                            validators=[FileAllowed(['jpg', 'png'], 
                                        ".jpg .png 이미지 파일만 가능합니다!") ] )
@@ -36,11 +36,11 @@ class CommonForm(FlaskForm):
     
 class HomeForm(CommonForm):
     address = TextField('address', 
-                        [validators.Required(message='필수항목입니다') ] )
+                        [validators.Required(message='필수항목') ] )
     bedrooms = IntegerField('bedrooms', 
-                            [validators.Required(message='필수항목입니다') ] )
+                            [validators.Required(message='필수항목') ] )
     bathrooms = IntegerField('bathrooms', 
-                             [validators.Required(message='필수항목입니다') ] )
+                             [validators.Required(message='필수항목') ] )
     parking = IntegerField('parking')    
     sqft = IntegerField('sqft')
     year = IntegerField('year')
@@ -48,7 +48,7 @@ class HomeForm(CommonForm):
 class CarForm(CommonForm):
     year = IntegerField('year')
     make = TextField('model', 
-                     [validators.Required(message='필수항목입니다') ] )
+                     [validators.Required(message='필수항목') ] )
     model = TextField('model', 
-                      [validators.Required(message='필수항목입니다') ] )
+                      [validators.Required(message='필수항목') ] )
     mileage = IntegerField('mileage')

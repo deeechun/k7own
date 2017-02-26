@@ -1,5 +1,4 @@
 
-{% block navbar %}
 <nav class="navbar navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
@@ -19,14 +18,13 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				{% if current_user.is_authenticated: %}
-					<li{% if page=='profile': %} class="nav-active"{% endif %}><a href="/profile"><i class="fa fa-user-circle-o" aria-hidden="true"></i> {{ current_user.username }}</a></li>
-					<li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 로그아웃</a></li>
+					<li{% if page=='profile': %} class="nav-active"{% endif %}><a href="/profile"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;&nbsp;{{ current_user.username }}</a></li>
+					<li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;로그아웃</a></li>
 				{% else %}
-					<li{% if page=='register': %} class="nav-active"{% endif %}><a href="/register"><i class="fa fa-user-plus" aria-hidden="true"></i> 회원가입</a></li>
-					<li{% if page=='login': %} class="nav-active"{% endif %}><a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> 로그인</a></li>
+					<li{% if page=='register': %} class="nav-active"{% endif %}><a href="/register"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;회원가입</a></li>
+					<li{% if page=='login': %} class="nav-active"{% endif %}><a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;&nbsp;로그인</a></li>
 				{% endif %}
 			</ul>
 		</div>
 	</div>
 </nav>
-{% endblock %}

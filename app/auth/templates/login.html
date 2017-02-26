@@ -3,15 +3,11 @@
 {% block content %}
 <div class='row'>
     <div class="col-xs-20 col-xs-offset-2 col-sm-12 col-sm-offset-6 col-md-8 col-md-offset-8 fade-in">
-        <div class="row">
-            <div class="col-xs-24">
-                <img style="margin-top:6px; width:100%;" src="{{ url_for('static', filename='images/logo-login.png') }}" />
-                <div style="border-radius:4px; background-color:#0066CD; height:20px; margin-top:18px"></div>
-            </div>
-        </div>
+        <!--<img style="margin-top:6px; width:100%;" src="{{ url_for('static', filename='images/logo-login.png') }}" />-->
+        <h2 class="auth-title">로그인</h2>
+        <div class="separator separator-thick"></div>
         <form method="post" action="" accept-charset="UTF-8">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            <br />
             <div class="form-group">
                 {{ form.username(class="form-control", placeholder="아이디") }}
                 {% for message in form.username.errors %}
