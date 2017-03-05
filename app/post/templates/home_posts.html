@@ -5,7 +5,7 @@
     FILTERS
     **************************************************-->
 <div class="filter-section">
-	{% include 'home_filters.html' %}
+    {% include 'home_filters.html' %}
 </div>
 
 <!--**************************************************
@@ -44,17 +44,19 @@
     </div><!-- END grid -->
     {% endfor %}
     <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="card card-add-new fade-in" onclick="location.href='/{{ page }}/edit'">
-            <table style="width:100%; height:100%;">
-                <tr>
-                    <td style="vertical-align:middle">
-                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                    </td>
-                </tr>
-            </table>
-        </div><!-- END class card-add-new -->
+        <a href="/{{ page }}/edit">
+            <div class="card card-add-new fade-in">
+                <table style="width:100%; height:100%;">
+                    <tr>
+                        <td style="vertical-align:middle">
+                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                </table>
+            </div><!-- END class card-add-new -->
+        </a>
     </div><!-- END grid -->
-</div><!-- END cards-box -->
+</div><!-- END cards-section -->
 
 <!--**************************************************
     MODALS
@@ -62,8 +64,8 @@
 {% for post in posts: %}
 <div class="modal" id="view-modal-{{post.id}}" role="dialog">
     <div class="modal-dialog modal-lg">
-    	<div class="modal-content">
-        	{% include 'home_modals.html' %}
+        <div class="modal-content">
+            {% include 'home_modals.html' %}
         </div>
     </div>
 </div><!-- END class modal -->
@@ -93,19 +95,14 @@
 {% block script %}
 <script src="{{ url_for('static', filename='js/fotorama.js') }}"></script>
 <script>
-	window.onload = function() {
-	    card_width = $('.card').width();
-	    $('.card').css({
-	        'height': card_width + 'px'
-	    });
-	};
-    window.onresize = function() {
-        card_width = $('.card').width();
+    function squareUpCard() {
         $('.card').css({
-            'height': card_width + 'px'
+            'height': $('.card').width() + 'px'
         });
-    };
-    
+    }
+    window.onload = squareUpCard;
+    window.onresize = squareUpCard;
+
     $(document).ready(function() {
         $('#rangeslider').slider({
             range: true,

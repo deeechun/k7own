@@ -13,11 +13,11 @@ import datetime
 from app import db
 from app.scripts import verify_required
 from app.models import PostHome, PostCar
-from app.post.post_forms import HomeForm
+from app.post.post_forms import HomeForm, CarForm
 
 post_blueprint = Blueprint('post', __name__, template_folder='templates')
 
-def process_common_filters():
+def apply_common_filters():
     pmin, pmax = 0, 0
     if request.args.get('pmin') and request.args.get('pmax'):
         pmin = int(re.search(r'\d+', request.args.get('pmin')).group())
@@ -29,7 +29,7 @@ def process_common_filters():
 
     return pmin, pmax, city
 
-def process_home_filters():
+def apply_home_filters():
     beds, baths = 0, 0
     if request.args.get('beds') and request.args.get('baths'):
         beds = request.args.get('beds')
@@ -37,7 +37,7 @@ def process_home_filters():
 
     return beds, baths
 
-def process_car_filters():
+def apply_car_filters():
     year, make, model, mileage = 0, '', '', 0
     if request.args.get('year'):
         year = request.args.get('year')
@@ -47,10 +47,10 @@ def process_car_filters():
 
     return year, make, model, mileage
 
-def process_home_prices(pmin, pmax):
+def apply_home_prices(pmin, pmax):
     price_min = db.session.query(db.func.min(PostHome.price)).scalar()
     price_max = db.session.query(db.func.max(PostHome.price)).scalar()
-    # refactor this process; same part with process_car_prices()
+    # refactor this process; same part with apply_car_prices()
     if pmin or pmax:
         pmin_filtered = pmin
         pmax_filtered = pmax
@@ -60,7 +60,7 @@ def process_home_prices(pmin, pmax):
 
     return price_min, price_max, pmin_filtered, pmax_filtered
 
-def process_car_prices(pmin, pmax):
+def apply_car_prices(pmin, pmax):
     price_min = db.session.query(db.func.min(PostCar.price)).scalar()
     price_max = db.session.query(db.func.max(PostCar.price)).scalar()
     if pmin or pmax:
@@ -73,13 +73,12 @@ def process_car_prices(pmin, pmax):
     return price_min, price_max, pmin_filtered, pmax_filtered
 
 @post_blueprint.route('/homes', methods=['GET'])
-def home_posts():
+def show_home_posts():
     try:
-        pmin, pmax, city = process_common_filters()
-        beds, baths = process_home_filters()
-        price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)
+        pmin, pmax, city = apply_common_filters()
+        beds, baths = apply_home_filters()
+        price_min, price_max, pmin_filtered, pmax_filtered = apply_home_prices(pmin, pmax)
         cities = db.session.query(PostHome.city.distinct().label('city')).order_by(PostHome.city).limit(100).all()
-        
         posts = (PostHome.query
                  .filter(PostHome.price >= pmin_filtered)
                  .filter(PostHome.price <= pmax_filtered)
@@ -102,14 +101,13 @@ def home_posts():
         abort(404)
 
 @post_blueprint.route('/cars', methods=['GET'])
-def car_posts():
+def show_car_posts():
     try:
         category= 'test'
-        pmin, pmax, city = process_common_filters()
-        year, make, model, mileage = process_car_filters()
-        price_min, price_max, pmin_filtered, pmax_filtered = process_home_prices(pmin, pmax)       
+        pmin, pmax, city = apply_common_filters()
+        year, make, model, mileage = apply_car_filters()
+        price_min, price_max, pmin_filtered, pmax_filtered = apply_home_prices(pmin, pmax)       
         cities = db.session.query(PostCar.city.distinct().label('city')).order_by(PostCar.city).limit(100).all()
-        
         posts = (PostCar.query
                  .filter(PostCar.price >= pmin_filtered)
                  .filter(PostCar.price <= pmax_filtered)

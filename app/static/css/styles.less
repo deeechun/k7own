@@ -26,12 +26,12 @@ hr{
 .container{
     max-width: 940px;
 }
-.alert{
-    margin: 6px;
-}
-#content{
+.content{
     margin-top: 50px;
-    padding-top: 6px;
+    padding: 6px 0 0 0;
+}
+.alert{
+    margin: 3px;
 }
 .heading-box{
     margin: 3px 0px 3px 0px;
@@ -47,6 +47,17 @@ hr{
     font-size: 16px;
     font-weight: bold;
 }
+.section-title{
+    color: #0069CD;
+    margin: 12px 3px 12px 3px;
+    font-weight: bold;
+}
+.section-p{
+    margin: 6px 3px 6px 3px;
+}
+.list-group {
+    margin: 3px;
+}
 .ellipsis{
     overflow: hidden;
     white-space: nowrap;
@@ -59,18 +70,17 @@ hr{
 }
 .separator-creator(@thickness){
     height: @thickness;
-    width: 100%;
     border-radius: 3px;
     background-color: #0066CD;
 }
 .separator{
     &.separator-thick{
-        .separator-creator(18px);
-        margin: 12px 0 15px 0;
+        .separator-creator(15px);
+        margin: 12px 0px 15px 0px;
     }
     &.separator-thin{
-        .separator-creator(2px);
-        margin: 6px;
+        .separator-creator(3px);
+        margin: 0px;
     }
 }
 
@@ -82,7 +92,7 @@ hr{
     border-radius: 0px;
     border: 0;
     z-index: 300;
-    box-shadow: 0 3px 6px -1px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 3px -1px rgba(0,0,0,0.3);
 }
 .navbar a{
     color: #6c6c6c;
@@ -111,7 +121,7 @@ hr{
     padding: 24px;
     clear: both;
     background-color: #EEEEEE;
-    color: #444444;
+    color: #6c6c6c;
 }
 
 /**************************************************/
@@ -169,15 +179,6 @@ hr{
     text-align: center;
     font-size: 12px;
 }
-/* unverified.html */
-.section-title{
-    color: #0069CD;
-    font-size: 20px;
-    margin: 12px;
-}
-.section-p{
-    margin: 12px;
-}
 
 /**************************************************/
 /* filters CSS
@@ -197,6 +198,7 @@ hr{
 .filter-box{
     background-color: #EEEEEE;
     border: 1px solid #dcdcdc;
+    color: #6c6c6c;
     margin: 6px;
     padding: 3px;
 }
@@ -304,7 +306,7 @@ hr{
     background: -o-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
     background: -moz-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
     background: linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
-    padding: 6px;
+    padding: 4px;
     color: #FFFFFF;
 }
 .card-subject{
@@ -490,8 +492,14 @@ hr{
 
 @media only screen and (max-width : 767px) {
 /* only size 'xs' and below */
-	.cards-box{
-		padding: 3px;
+    .content{
+        padding: 6px 3px 3px 3px;
+    }
+    .filter-box{
+        margin: 3px;
+    }
+	.card{
+		margin: 3px;
 	}
     .card-viewed {
         font-size: 10px;

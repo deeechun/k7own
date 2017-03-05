@@ -1,6 +1,6 @@
 from flask import Flask, flash, request, render_template, redirect, session, url_for, Blueprint
 from flask_login import login_required, login_user, current_user, logout_user, confirm_login, login_fresh
-from time import strftime
+from datetime import datetime
 
 from app import db, verify_required
 from app.models import User
@@ -18,44 +18,37 @@ def register():
         return redirect(url_for('home.home'))
     
     form = RegisterForm()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            if User.is_email_taken(form.email.data):
-                flash('이메일이 이미 가입되어 있습니다.', 'danger')
-            elif User.is_username_taken(form.username.data):
-                flash('아이디가 이미 가입되어 있습니다.', 'danger')
-            else:    
-                new_user = User(
-                    date_joined = strftime("%Y-%m-%d"),
-                    email = form.email.data,
-                    username = form.username.data,
-                    password = form.password.data,
-                    verified = 0
-                    )
-                db.session.add(new_user)
-                db.session.commit()
-                
-                # generate token and verify token url
-                token = generate_confirmation_token(new_user.email)
-                verify_url = url_for('auth.verify_email', token=token, _external=True)
+    if form.validate_on_submit():
+        if User.is_email_taken(form.email.data):
+            flash('이메일이 이미 가입되어 있습니다.', 'danger')
+        elif User.is_username_taken(form.username.data):
+            flash('아이디가 이미 가입되어 있습니다.', 'danger')
+        else:    
+            new_user = User(date_joined = datetime.now.strftime("%Y-%m-%d"),
+                            email = form.email.data,
+                            username = form.username.data,
+                            password = form.password.data,
+                            verified = 0)
+            db.session.add(new_user)
+            db.session.commit()
+            
+            # generate token and verify token url
+            token = generate_confirmation_token(new_user.email)
+            verify_url = url_for('auth.verify_email', token=token, _external=True)
 
-                # create email message and send
-                email_html = render_template('/verify_msg.html', verify_url=verify_url)
-                email_subject = '계정 검증 이메일입니다'
-                send_mail(new_user.email, email_subject, email_html)
-                
-                # welcome message and auto login
-                flash_message = '환영합니다, ' + new_user.username+'님!'
-                flash(flash_message, 'success')
-                login_user(new_user)
-                
-                db.session.close()
-                return redirect(url_for('auth.unverified'))
-            return render_template('/register.html', form=form, page=page)
-        else:
-            return render_template('/register.html', form=form, page=page)
-    elif request.method == 'GET':
-        return render_template('/register.html', form=form, page=page)
+            # create email message and send
+            email_html = render_template('/verify_msg.html', verify_url=verify_url)
+            email_subject = '계정 검증 이메일입니다'
+            send_mail(new_user.email, email_subject, email_html)
+            
+            # welcome message and auto login
+            flash_message = '환영합니다, ' + new_user.username+'님!'
+            flash(flash_message, 'success')
+            login_user(new_user)
+            
+            db.session.close()
+            return redirect(url_for('auth.unverified'))
+    return render_template('/register.html', form=form, page=page)
 
 @auth_blueprint.route('/verify/<token>')
 @login_required
@@ -91,25 +84,19 @@ def login():
         return redirect(url_for('home.home'))
     
     form = LoginForm()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            user, authenticated = User.authenticate(form.username.data, form.password.data)
-            if user:
-                if authenticated:
-                    login_user(user, remember=form.remember_me.data)
-                    
-                    db.session.close()
-                    return redirect(url_for('home.home'))
-                else:
-                    flash('아이디와 비밀번호가 일치하지 않습니다', 'danger')
-                    return render_template('/login.html', form=form, page=page)
+    if form.validate_on_submit():
+        user, authenticated = User.authenticate(form.username.data, form.password.data)
+        if user:
+            if authenticated:
+                login_user(user, remember=form.remember_me.data)
+                
+                db.session.close()
+                return redirect(url_for('home.home'))
             else:
-                flash('아이디가 가입되어있지 않습니다', 'danger')
-                return render_template('/login.html', form=form, page=page)
+                flash('아이디와 비밀번호가 일치하지 않습니다', 'danger')
         else:
-            return render_template('/login.html', form=form, page=page)
-    elif request.method == 'GET':
-        return render_template('/login.html', form=form, page=page)
+            flash('아이디가 가입되어있지 않습니다', 'danger')
+    return render_template('/login.html', form=form, page=page)
 
 @auth_blueprint.route('/logout')
 @login_required

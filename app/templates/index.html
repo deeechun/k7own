@@ -19,22 +19,22 @@
     <header>
         {% include 'navbar.html' %}
     </header>
-    <section id="content">
-        <div class="container">
-            <!-- flask flash messages -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+    <section class="container content">
+        <!-- flask flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-            <!-- content html template -->
-            {% block content %}
-                <!-- block content goes here -->
-            {% endblock %}
-        </div>
+        <!-- content html template -->
+        {% block content %}
+            <!-- 
+                block content goes here 
+            -->
+        {% endblock %}
     </section>
     <footer class="footer">
         {% include 'footer.html' %}
