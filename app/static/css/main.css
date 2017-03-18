@@ -1,0 +1,153 @@
+/* reset.css */
+/**************************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1.1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* site-wide CSS */
+/**************************************************/
+@font-face {
+    font-family: NotoSans;
+    src: url(../fonts/NotoSansKR-Regular.otf);
+}
+@font-face {
+    font-family: Hanna;
+    src: url(../fonts/BM-HANNA.ttf);
+}
+body{
+    font-family: NotoSans, arial;
+}
+hr{
+    margin: 6px 0px 6px 0px;
+    border-top: 1px solid #dcdcdc;
+}
+.container{
+    max-width: 940px;
+}
+.ellipsis{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.form-error{
+    margin-top: 2px;
+    color: red;
+    font-size: 12px; 
+}
+
+/* header navbar CSS */
+/**************************************************/
+#header .navbar{
+    z-index: 3;
+    background-color: #ffffff;
+    border-radius: 0px;
+    border: 0;
+    box-shadow: 0 3px 3px -1px rgba(0,0,0,0.3);
+}
+#header .navbar-header h2 a{
+    padding-left: 9px;
+    padding-right: 15px;
+    color: black;
+    font-family: Bungee Hairline;
+    font-size: 27px;
+    font-weight: bold;
+}
+#header .navbar-collapse li a{
+    color: #6c6c6c;
+    font-size: 15px;
+    font-weight: bold;
+}
+#header .navbar-collapse li a:hover{
+    background-color: #FFFFFF;
+    color: #0066CD;
+}
+#header .nav-active a{
+    color: #0066CD;
+}
+#header .navbar-toggle .icon-bar {
+    margin-right: 3px;
+    height: 2px;
+    width: 21px;
+    border-radius: 3px;
+    background-color: #6c6c6c;
+}
+
+/* content CSS */
+/**************************************************/
+#content{
+    margin-top: 60px;
+    padding: 6px 0 0 0;
+}
+#content .alert{
+    margin: 6px;
+}
+#content .alert p{
+    font-size: 15px;
+}
+
+/* footer CSS
+/**************************************************/
+#footer{
+    border-top: 1px solid #dcdcdc;
+    margin-top: 60px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background-color: #EEEEEE;
+}
+#footer p{
+    text-align: center;
+    margin: 9px;
+    color: #6c6c6c;
+    font-size: 11px;
+}
+#footer .footer-links a{
+    margin: 5px;
+    text-decoration: none;
+    color: #6c6c6c;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#tc-modal p{
+    text-align: left;
+}

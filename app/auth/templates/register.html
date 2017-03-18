@@ -2,41 +2,41 @@
 
 {% block content %}
 <div class='row'>
-    <div class="col-xs-20 col-xs-offset-2 col-sm-12 col-sm-offset-6 col-md-8 col-md-offset-8 fade-in">
+    <div class="col-xs-20 col-xs-offset-2 col-sm-10 col-sm-offset-7 col-md-8 col-md-offset-8">
         <!--<img style="margin-top:6px; width:100%;" src="{{ url_for('static', filename='images/logo-register.png') }}" />-->
         <h2 class="auth-title">회원가입</h2>
         <div class="separator separator-thick"></div>
         <form method="post" action="">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div class="form-group">
-                {{ form.email(class="form-control", placeholder="E-mail*") }}
+                {{ form.email(class="form-control", placeholder="Email*") }}
                 {% for message in form.email.errors %}
-                    <p style="font-size:12px; color:red; margin-top:1px">&nbsp{{ message }}</p>
+                    <p class="form-error">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.username(class="form-control", placeholder="아이디*") }}
                 {% for message in form.username.errors %}
-                    <p style="font-size:12px; color:red; margin-top:1px">&nbsp{{ message }}</p>
+                    <p class="form-error">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.password(class="form-control", placeholder="비밀번호*") }}
                 {% for message in form.password.errors %}
-                    <p style="font-size:12px; color:red; margin-top:1px">&nbsp{{ message }}</p>
+                    <p class="form-error">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.password_check(class="form-control", placeholder="비밀번호 확인*") }}
                 {% for message in form.password_check.errors %}
-                    <p style="font-size:12px; color:red; margin-top:1px">&nbsp{{ message }}</p>
+                    <p class="form-error">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.tc_check(value="tc-agree") }}
                 <span style="font-size:13px">모든 <a data-toggle="modal" href="#tc-modal">이용약관</a>에 동의합니다*</span>
                 {% for message in form.tc_check.errors %}
-                    <p style="font-size:12px; color:red; margin-top:1px">&nbsp{{ message }}</p>
+                    <p class="form-error">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
             <div class="form-group">
@@ -48,29 +48,11 @@
             </div>
         </form>
         <hr>
-        <div class="user-guide text-center">
+        <div class="user-guide">
             <p>이미 회원이세요?</p>
             <a href="/login">로그인하기</a>
         </div>
     </div>
 </div><!-- END outer row -->
 
-<div class="modal fade" id="tc-modal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock %}

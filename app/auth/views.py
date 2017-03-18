@@ -1,9 +1,8 @@
 from flask import Flask, flash, request, render_template, redirect, session, url_for, Blueprint
 from flask_login import login_required, login_user, current_user, logout_user, confirm_login, login_fresh
-from datetime import datetime
 
-from app import db, verify_required
-from app.models import User
+from app.scripts import verify_required
+from app.models import db, User
 from app.auth.user_forms import LoginForm, RegisterForm
 from app.auth.token import generate_confirmation_token, confirm_token
 from app.auth.email import send_mail
@@ -24,11 +23,9 @@ def register():
         elif User.is_username_taken(form.username.data):
             flash('아이디가 이미 가입되어 있습니다.', 'danger')
         else:    
-            new_user = User(date_joined = datetime.now.strftime("%Y-%m-%d"),
-                            email = form.email.data,
+            new_user = User(email = form.email.data,
                             username = form.username.data,
-                            password = form.password.data,
-                            verified = 0)
+                            password_input = form.password.data)
             db.session.add(new_user)
             db.session.commit()
             

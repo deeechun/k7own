@@ -17,9 +17,9 @@ class Config(object):
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ['APP_MAIL_USERNAME']
     MAIL_PASSWORD = os.environ['APP_MAIL_PASSWORD']
-    MAIL_DEFAULT_SENDER = 'noreply@ktown.com'
+    MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
     
-    # recaptcha
+    # google recaptcha
     RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']
     RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']
     
@@ -35,4 +35,6 @@ class DevConfig(Config):
 class ProdConfig(Config):
     ''' Production configurations '''
     
+    DEBUG = False
+    TESTING = False
     SQLALCHEMY_ECHO = False

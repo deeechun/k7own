@@ -1,6 +1,6 @@
-from functools import wraps
 from flask import redirect, url_for
 from flask_login import current_user
+from functools import wraps
 
 # decorator to check if account is verified
 def verify_required(func):

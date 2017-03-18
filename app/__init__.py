@@ -1,33 +1,34 @@
 import os
 from flask import Flask, render_template
-from app.extensions import db, login_manager, csrf, mail
-from app.scripts import verify_required
 from app.models import User, PostHome, PostCar
 
-# import and setup environment variables
-import config_env
+def create_app(config_object):
+    """
+    Application factory function creates app using configuration
+    taken as an object from config.py
+    """
+    # initialize app and load config from object in config.py
+    app = Flask(__name__)
+    app.config.from_object(config_object)
 
-# create app and load config from Config object in config.py
-app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
+    # import and initialize extensions with application instance
+    from app.models import db, login_manager
+    db.init_app(app)
+    login_manager.init_app(app)
+    from app.auth.email import mail
+    mail.init_app(app)
+    from flask_wtf.csrf import CsrfProtect
+    csrf = CsrfProtect()
+    csrf.init_app(app)
 
-# initialize extensions from extensions.py
-db.init_app(app)
-login_manager.init_app(app)
-csrf.init_app(app)
-mail.init_app(app)
+    # import and register blueprints
+    from app.home.views import home_blueprint
+    from app.auth.views import auth_blueprint
+    from app.post.views import post_blueprint
+    from app.api.views import api_blueprint
+    app.register_blueprint(home_blueprint)
+    app.register_blueprint(auth_blueprint)
+    app.register_blueprint(post_blueprint)
+    app.register_blueprint(api_blueprint)
 
-# import and register blueprints
-from app.home.views import home_blueprint
-from app.auth.views import auth_blueprint
-from app.post.views import post_blueprint
-from app.api.views import api_blueprint
-app.register_blueprint(home_blueprint)
-app.register_blueprint(auth_blueprint)
-app.register_blueprint(post_blueprint)
-app.register_blueprint(api_blueprint)
-
-# error page
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+    return app

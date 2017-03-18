@@ -10,9 +10,8 @@ from flask_login import login_required
 from flask_sqlalchemy import *
 import datetime
 
-from app import db
 from app.scripts import verify_required
-from app.models import PostHome, PostCar
+from app.models import db, PostHome, PostCar
 from app.post.post_forms import HomeForm, CarForm
 
 post_blueprint = Blueprint('post', __name__, template_folder='templates')
@@ -85,11 +84,11 @@ def show_home_posts():
                  .filter(PostHome.city.contains(city))
                  .filter(PostHome.bedrooms >= beds)
                  .filter(PostHome.bathrooms >= baths)
-                 .order_by(PostHome.id.desc()) )
+                 .order_by(PostHome.id.desc())
+                 .limit(140) )
         
         return render_template('/home_posts.html',
                                page='homes',
-                               category='test',
                                price_min=price_min,
                                price_max=price_max, 
                                pmin_filtered=pmin_filtered, 
@@ -103,7 +102,6 @@ def show_home_posts():
 @post_blueprint.route('/cars', methods=['GET'])
 def show_car_posts():
     try:
-        category= 'test'
         pmin, pmax, city = apply_common_filters()
         year, make, model, mileage = apply_car_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = apply_home_prices(pmin, pmax)       
@@ -116,11 +114,11 @@ def show_car_posts():
                  .filter(PostCar.make >= make)
                  .filter(PostCar.model >= model)
                  .filter(PostCar.mileage >= mileage)
-                 .order_by(PostCar.id.desc()) )
+                 .order_by(PostCar.id.desc()) 
+                 .limit(140) )
         
         return render_template('/car_posts.html',
                                page='cars',
-                               category='test',
                                price_min=price_min,
                                price_max=price_max, 
                                pmin_filtered=pmin_filtered, 

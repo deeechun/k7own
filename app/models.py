@@ -1,6 +1,17 @@
-from app import db, login_manager
-from flask_login import UserMixin, current_user
-from werkzeug import generate_password_hash, check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import ( LoginManager,
+                          UserMixin, 
+                          current_user )
+from werkzeug import ( generate_password_hash, 
+                       check_password_hash )
+import time
+
+db = SQLAlchemy()
+login_manager = LoginManager()
+# config action on login_required views
+login_manager.login_view = '/login'
+login_manager.login_message = '로그인을 먼저 해주세요.'
+login_manager.login_message_category = 'warning'
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -11,44 +22,53 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(120), nullable=False)
     verified = db.Column(db.Boolean, nullable=False, default=0)
     
-    def __init__(self, date_joined, email, username, password, verified):
-        self.date_joined = date_joined
+    def __init__(self, email, username, password_input):
         self.email = email
         self.username = username
-        self.password = generate_password_hash(password, method='pbkdf2:sha256:100000')
-        self.verified = verified
+        self.password = generate_password_hash(password_input, method='pbkdf2:sha256:10000')
+        self.date_joined = time.strftime('%Y-%m-%d')
+        self.verified = 0
     
     def __repr__(self):
         return '<User %r>' % self.username
 
+    # set password attribute of instance by hashing password input using werkzeug
     def set_password(self, password_input):
-        self.password = generate_password_hash(password_input)
+        self.password = generate_password_hash(password_input, method='pbkdf2:sha256:10000')
 
+    # check password input against hashed password using werkzeug
+    # returns true if input and hashed password match, false otherwise
     def check_password(self, password_input):
         if self.password is None:
             return False
         return check_password_hash(self.password, password_input)
 
+    # authenticates user using username and password inputs taken from user
+    # returns type tuple with username and boolean
+    # boolean is true if user is authenticated, false otherwise
     @classmethod
-    def authenticate(cls, username, password):
-        user = User.query.filter(db.or_(User.username == username)).first()
+    def authenticate(cls, username_input, password_input):
+        user = User.query.filter(db.or_(User.username == username_input)).first()
         if user:
-            authenticated = user.check_password(password)
+            authenticated = user.check_password(password_input)
         else:
             authenticated = False
         return user, authenticated
-      
+    
+    # checks db if username or email is taken
+    # .scalar() returns first element of the first result or None if no rows present
     @classmethod
     def is_username_taken(cls, username):
         return db.session.query(db.exists().where(User.username==username)).scalar()
-    
     @classmethod
     def is_email_taken(cls, email):
         return db.session.query(db.exists().where(User.email==email)).scalar()
 
-@login_manager.user_loader
-def load_user(id):
-    return User.query.get(id)
+    # fetch db for user by 'id'
+    # create and return new User object
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(id)
 
 class Post(object):
     category = db.Column(db.String(12), nullable=False)

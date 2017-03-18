@@ -1,67 +1,20 @@
-@font-face {
-    font-family: NotoSans;
-    src: url(../fonts/NotoSansKR-Regular.otf);
-}
-@font-face {
-    font-family: Hanna;
-    src: url(../fonts/BM-HANNA.ttf);
-}
-
-html,
-body{
-    overflow: auto;
-    min-height: 100%;
-    background-color: #FFFFFF;
-    font-family: NotoSans, arial;
-}
-p, span, h1, h2, h3, h4{
-    margin: 0;
-    padding: 0;
-}
-hr{
-    display: block;
-    margin: 6px 0px 6px 0px;
-    border-top: 1px solid #dedede;
-}
-.container{
-    max-width: 940px;
-}
-.content{
-    margin-top: 50px;
-    padding: 6px 0 0 0;
-}
-.alert{
-    margin: 3px;
-}
-.heading-box{
-    margin: 3px 0px 3px 0px;
-    height: 60px;
-}
-.heading{
-    float: left;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0px;
-    color: #444444;
-    font-size: 16px;
-    font-weight: bold;
-}
 .section-title{
     color: #0069CD;
-    margin: 12px 3px 12px 3px;
-    font-weight: bold;
+    margin: 18px 6px;
+    font-size: 24px;
+}
+.section-subtitle{
+    color: #0069CD;
+    margin: 15px 6px;
+    font-size: 18px;
 }
 .section-p{
-    margin: 6px 3px 6px 3px;
+    margin: 12px 6px;
+    font-size: 15px;
 }
 .list-group {
     margin: 3px;
-}
-.ellipsis{
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font-size: 15px;
 }
 .input-lg{
     padding: 0;
@@ -78,63 +31,16 @@ hr{
         .separator-creator(15px);
         margin: 12px 0px 15px 0px;
     }
-    &.separator-thin{
-        .separator-creator(3px);
-        margin: 0px;
-    }
 }
 
-/**************************************************/
-/* navbar CSS
-/**************************************************/
-.navbar{
-    background-color: #ffffff;
-    border-radius: 0px;
-    border: 0;
-    z-index: 300;
-    box-shadow: 0 3px 3px -1px rgba(0,0,0,0.3);
-}
-.navbar a{
-    color: #6c6c6c;
-    font-weight: bold;
-}
-.navbar li a:hover{
-    background-color: #FFFFFF;
-    color: #0066CD;
-}
-.nav-active a{
-    color: #0066CD;
-}
-.navbar-toggle .icon-bar {
-    width: 21px;
-    height: 2px;
-    background-color: #6c6c6c;
-    margin-right: 3px;
-}
-
-/**************************************************/
-/* footer CSS
-/**************************************************/
-.footer{
-    border-top: 1px solid #dcdcdc;
-    margin-top: 120px;
-    padding: 24px;
-    clear: both;
-    background-color: #EEEEEE;
-    color: #6c6c6c;
-}
-
-/**************************************************/
 /* buttons btn
 /**************************************************/
 .btn-creator(@color, @bgcolor){
     color: @color;
     background: @bgcolor;
-    box-shadow: 0px 3px 0px darken(@bgcolor, 15%);
-    margin-bottom: 3px;
-
+    box-shadow: 0px 2px 0px darken(@bgcolor, 15%);
     &:active{
-        box-shadow: 0px 1px 0px darken(@bgcolor, 15%);
+        box-shadow: none;
         position: relative;
         top: 2px;
     }
@@ -145,11 +51,17 @@ hr{
 }
 .btn{
     margin: 0;
+    padding: 5px 10px;
+    height: 32px;
+    &.btn-lg{
+        padding: 9px 15px;
+        height: 44px;
+    }
     &.btn-submit{
         .btn-creator(#FFFFFF, #0069CD);
     }
     &.btn-new{
-        .btn-creator(#FFFFFF, #ff8c00);
+        .btn-creator(#FFFFFF, #fc8114);
     }
     &.btn-browse{
         .btn-creator(#FFFFFF, #6c6c6c);
@@ -165,22 +77,27 @@ hr{
     display: none;
 }
 
-/**************************************************/
 /* auth pages CSS
 /**************************************************/
-.auth-title{
-    margin-top: 12px;
-    font-family: Hanna;
-    font-size: 60px;
-    text-align: center;
-}
 .user-guide{
     margin-top: 12px;
     text-align: center;
+}
+.user-guide a, p{
     font-size: 12px;
 }
 
-/**************************************************/
+/* unverified */
+    
+
+/* login & register */
+    .auth-title{
+        margin-top: 24px;
+        font-family: Hanna;
+        font-size: 60px;
+        text-align: center;
+    }
+
 /* filters CSS
 /**************************************************/
 /*.filter-box{
@@ -209,45 +126,37 @@ hr{
 .filter-group-mobile{
     margin: 5px;
 }
-.filter-select{
-    height: 38px;
-    border: 1px soild #dcdcdc;
-    padding: 0 0 0 3px;
-    font-size: 15px;
-}
-.filter-dropdown{
-    height: 38px;
-    border: 1px soild #dcdcdc;
-    padding-top: 8px;
-    font-size: 15px;
-    text-align: center;
+.filter-button{
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .dropdown-toggle:hover{
     text-decoration: none;
 }
 .dropdown-menu{
-    padding: 3px;
+    width: 300px;
+    padding: 6px;
 }
 .price-form-group{
-    margin: 5px;
+    margin: 6px;
 }
 .input-group-addon{
-    padding: 6px;
+    padding: 2px 8px;
 }
 .ui-slider {
     height: 12px;
     margin: 12px;
 }
 .ui-slider .ui-slider-handle {
-    height: 19px;
+    height: 18px;
     width: 18px;
 }
 .ui-slider .ui-slider-range{
     background-color: #D2E6F6;
 }
 
-/**************************************************/
-/* cards CSS
+
+/* posts CSS
 /**************************************************/
 .cards-section {
 
@@ -280,7 +189,7 @@ hr{
     background-color: #444444;
     border-radius: 3px;
     opacity: 0.8;
-    padding: 1px 3px 1px 3px;
+    padding: 1px 3px;
     color: #FFFFFF;
     font-family: arial;
     font-size: 11px;
@@ -299,18 +208,18 @@ hr{
     transition: all .25s ease;
 }
 .card-content{
-    position:absolute;
+    position: absolute;
     width: 100%;
     bottom: 0px;
-    background: -webkit-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
-    background: -o-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
-    background: -moz-linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
-    background: linear-gradient(to top, rgba(68,68,68,1), rgba(68,68,68,0));
-    padding: 4px;
+    background: -webkit-linear-gradient(to top, rgba(69,69,69,1), rgba(69,69,69,0));
+    background: -o-linear-gradient(to top, rgba(69,69,69,1), rgba(69,69,69,0));
+    background: -moz-linear-gradient(to top, rgba(69,69,69,1), rgba(69,69,69,0));
+    background: linear-gradient(to top, rgba(69,69,69,1), rgba(69,69,69,0));
+    padding: 5px;
     color: #FFFFFF;
 }
 .card-subject{
-    margin-top: 6px;
+    margin: 12px 0 6px 0;
     font-size: 14px;
     color: #FFFFFF;
 }
@@ -319,7 +228,7 @@ hr{
     color: #d4d4d4;
 }
 .card-desc {
-    margin: 0 0 2px 0;
+    margin: 4px 0;
     font-size: 15px;
     font-weight: bold;
 }
@@ -334,20 +243,10 @@ hr{
     border-top: 1px solid #dedede;
 }
 .card-read-more-text {
-    margin: 1px 0 0 0;
-    padding: 0 0 0 1px;
-    /*color: #757575;*/
+    margin: 3px 0 0 0;
     font-size: 11px;
 }
-/*.pagination{
-    margin: 12px 0px 6px 0px;
-}
-.pagination-centered {
-    text-align: center;
-}
-.pagination>li.active>a{
-    background-color: #0066CD;
-}
+/*
 .map-view{
     position: absolute;
     top: 100px;
@@ -371,8 +270,7 @@ hr{
     padding: 3px;
 }*/
 
-/**************************************************/
-/* view modal CSS
+/* view/modal CSS
 /**************************************************/
 .modal{
     z-index: 9999;
@@ -445,13 +343,13 @@ hr{
 }
 .view-box-subtitle{
     width: 30%;
-    padding: 3px 0 3px 0;
+    padding: 3px 0;
     font-size: 14px;
     font-weight: bold;
     color: #444444;
 }
 .view-box-stat{
-    padding: 3px 0 3px 0;
+    padding: 3px 0;
     font-size: 14px;
     font-weight: normal;
     color: #444444;
@@ -464,7 +362,6 @@ hr{
     border:1px solid red;
 }
 
-/**************************************************/
 /* edit page CSS
 /**************************************************/
 .edit-section{
@@ -492,9 +389,6 @@ hr{
 
 @media only screen and (max-width : 767px) {
 /* only size 'xs' and below */
-    .content{
-        padding: 6px 3px 3px 3px;
-    }
     .filter-box{
         margin: 3px;
     }
@@ -503,6 +397,9 @@ hr{
 	}
     .card-viewed {
         font-size: 10px;
+    }
+    .card-content{
+        padding: 3px;
     }
     .card-subject {
         font-size: 13px;

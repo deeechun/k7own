@@ -9,12 +9,12 @@
             GENERAL INFORMATION
         **************************************************-->
     <div class="col-xs-24 col-sm-15">
-        <h2 class="edit-title">제목 & 소개</h2>
+        <h2 class="edit-title">제목 &amp; 소개</h2>
         <div class="col-xs-12">
             <div class="form-group edit-form-group">
                 {{ form.category(class="form-control") }}
                 {% for message in form.category.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -22,7 +22,7 @@
             <div class="form-group edit-form-group">
                 {{ form.subject(class="form-control", placeholder="제목*") }}
                 {% for message in form.subject.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -30,7 +30,7 @@
             <div class="form-group edit-form-group">
                 {{ form.price(class="form-control", placeholder="가격") }}
                 {% for message in form.body.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="form-group edit-form-group">
                 {{ form.address(class="form-control", placeholder="지역* (예: Los Angeles)") }}
                 {% for message in form.subject.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="form-group edit-form-group">
                 {{ form.body(class="form-control edit-body", placeholder="...", rows="6") }}
                 {% for message in form.body.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -83,7 +83,7 @@
             <div class="form-group edit-form-group">
                 {{ form.address(class="form-control", placeholder="주소") }}
                 {% for message in form.body.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -91,7 +91,7 @@
             <div class="form-group form-group edit-form-group">
                 {{ form.bedrooms(class="form-control", placeholder="방") }}
                 {% for message in form.body.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
@@ -99,7 +99,7 @@
             <div class="form-group edit-form-group">
                 {{ form.bathrooms(class="form-control", placeholder="화장실") }}
                 {% for message in form.body.errors %}
-                    <p style="font-size:12px; color:red;">&nbsp{{ message }}</p>
+                    <p style="font-size:12px; color:red;">&nbsp;{{ message }}</p>
                 {% endfor %}
             </div>
         </div>
