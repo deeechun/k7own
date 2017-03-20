@@ -28,24 +28,6 @@ def apply_common_filters():
 
     return pmin, pmax, city
 
-def apply_home_filters():
-    beds, baths = 0, 0
-    if request.args.get('beds') and request.args.get('baths'):
-        beds = request.args.get('beds')
-        baths = request.args.get('baths')
-
-    return beds, baths
-
-def apply_car_filters():
-    year, make, model, mileage = 0, '', '', 0
-    if request.args.get('year'):
-        year = request.args.get('year')
-        make = request.args.get('make')
-        model = request.args.get('model')
-        mileage = request.args.get('mileage')
-
-    return year, make, model, mileage
-
 def apply_home_prices(pmin, pmax):
     price_min = db.session.query(db.func.min(PostHome.price)).scalar()
     price_max = db.session.query(db.func.max(PostHome.price)).scalar()
@@ -75,16 +57,10 @@ def apply_car_prices(pmin, pmax):
 def show_home_posts():
     try:
         pmin, pmax, city = apply_common_filters()
-        beds, baths = apply_home_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = apply_home_prices(pmin, pmax)
-        cities = db.session.query(PostHome.city.distinct().label('city')).order_by(PostHome.city).limit(100).all()
+        cities = db.session.query(PostHome.city.distinct().label('city')).order_by(PostHome.city).limit(140).all()
         posts = (PostHome.query
-                 .filter(PostHome.price >= pmin_filtered)
-                 .filter(PostHome.price <= pmax_filtered)
-                 .filter(PostHome.city.contains(city))
-                 .filter(PostHome.bedrooms >= beds)
-                 .filter(PostHome.bathrooms >= baths)
-                 .order_by(PostHome.id.desc())
+        	     .order_by(PostHome.id.desc())
                  .limit(140) )
         
         return render_template('/home_posts.html',
@@ -103,17 +79,9 @@ def show_home_posts():
 def show_car_posts():
     try:
         pmin, pmax, city = apply_common_filters()
-        year, make, model, mileage = apply_car_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = apply_home_prices(pmin, pmax)       
         cities = db.session.query(PostCar.city.distinct().label('city')).order_by(PostCar.city).limit(100).all()
         posts = (PostCar.query
-                 .filter(PostCar.price >= pmin_filtered)
-                 .filter(PostCar.price <= pmax_filtered)
-                 .filter(PostCar.city.contains(city))
-                 .filter(PostCar.year >= year)
-                 .filter(PostCar.make >= make)
-                 .filter(PostCar.model >= model)
-                 .filter(PostCar.mileage >= mileage)
                  .order_by(PostCar.id.desc()) 
                  .limit(140) )
         
