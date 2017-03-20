@@ -1,4 +1,5 @@
 venv
+migrations
 *.pyc
 *.pyo
 config_env.py
