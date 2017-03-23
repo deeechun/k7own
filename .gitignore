@@ -4,3 +4,4 @@ migrations
 *.pyo
 config_env.py
 notes.txt
+__pycache__
