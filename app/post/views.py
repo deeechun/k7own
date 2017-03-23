@@ -59,9 +59,7 @@ def show_home_posts():
         pmin, pmax, city = apply_common_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = apply_home_prices(pmin, pmax)
         cities = db.session.query(PostHome.city.distinct().label('city')).order_by(PostHome.city).limit(140).all()
-        posts = (PostHome.query
-        	     .order_by(PostHome.id.desc())
-                 .limit(140) )
+        posts = PostHome.query.order_by(PostHome.id.desc()).limit(140)
         
         return render_template('/home_posts.html',
                                page='homes',
@@ -81,9 +79,7 @@ def show_car_posts():
         pmin, pmax, city = apply_common_filters()
         price_min, price_max, pmin_filtered, pmax_filtered = apply_home_prices(pmin, pmax)       
         cities = db.session.query(PostCar.city.distinct().label('city')).order_by(PostCar.city).limit(100).all()
-        posts = (PostCar.query
-                 .order_by(PostCar.id.desc()) 
-                 .limit(140) )
+        posts = PostCar.query.order_by(PostCar.id.desc()).limit(140) )
         
         return render_template('/car_posts.html',
                                page='cars',
